@@ -269,11 +269,26 @@ button:active {
 
 .delete_story {
   margin-left: auto;
-  padding: 0.25rem;
+  background: none;
+  border: none;
+  padding: none;
 
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.delete_story:hover {
+  background-color: transparent;
+}
+
+.delete_story svg {
+  color: #555;
+  transition: color 0.15s ease;
+}
+
+.delete_story:hover svg {
+  color: #222
 }
 
 /* Sessions list */
@@ -424,6 +439,25 @@ ul {
 
 :root[data-theme="dark"] .story-item:hover {
   background-color: #242424;
+}
+
+:root[data-theme="dark"] .delete_story {
+  background: transparent;
+  border: transparent;
+  padding: none;
+}
+
+:root[data-theme="dark"] .delete_story:hover {
+  background: transparent !important;
+}
+
+:root[data-theme="dark"] .delete_story svg {
+  color: #e6e6e6;
+  transition: color 0.15s ease;
+}
+
+:root[data-theme="dark"] .delete_story:hover svg {
+  color: #a0a0a0;
 }
 
 :root[data-theme="dark"] .session-item:hover {

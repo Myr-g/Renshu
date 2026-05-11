@@ -277,6 +277,15 @@ section {
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
+:root[data-theme="dark"] #regenerate_prompt {
+  background-color: #2a2a2a;
+  border-color: #444;
+}
+
+:root[data-theme="dark"] #regenerate_prompt:hover:not(:disabled) {
+  background-color: #333;
+}
+
 :root[data-theme="dark"] #story_editor {
   background-color: transparent;
   color: var(--text-main);
