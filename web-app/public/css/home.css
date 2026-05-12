@@ -437,6 +437,15 @@ ul {
   color: var(--text-main);
 }
 
+:root[data-theme="dark"] .story_type_group {
+  border: 1px solid var(--border-subtle);
+}
+
+:root[data-theme="dark"] .story_type.active {
+  background-color: #e6e6e6;
+  color: black;
+}
+
 :root[data-theme="dark"] .story-item:hover {
   background-color: #242424;
 }

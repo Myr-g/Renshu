@@ -8,7 +8,8 @@ const story_text = document.getElementById("story_editor");
 const regen_button = document.getElementById("regenerate_prompt");
 const exit_button = document.getElementById("exit_session");
 const save_button = document.getElementById("save_story");
-const save_status = document.getElementById("save_status");
+const save_icon = document.getElementById("save_icon");
+const save_text = document.getElementById("save_text");
 const download_button = document.getElementById("download_story");
 const download_menu = document.getElementById("download_menu");
 const txt_download_button = document.getElementById("txt_download");
@@ -16,9 +17,10 @@ const pdf_download_button = document.getElementById("pdf_download");
 
 let regenerationDisabled = false;
 let isExiting = false;
-let timer;
+let autosaveTimeout;
 let saving = false;
 let isDirty = false;
+let saveTextTimeout;
 
 async function getSessionData()
 {
@@ -215,7 +217,7 @@ exit_button.addEventListener("click", async () => {
 // Save story text to session
 // Manual save
 save_button.addEventListener("click", async () => {
-  clearTimeout(timer);
+  clearTimeout(autosaveTimeout);
   saveStory(false);
 });
 
@@ -224,12 +226,12 @@ story_text.addEventListener("input", async () => {
   if(!isDirty)
   {
     isDirty = true;
-    showSaveStatus("Saving...", null, false);
+    showSaveStatus("saving...");
   }
   
-  clearTimeout(timer);
+  clearTimeout(autosaveTimeout);
 
-  timer = setTimeout(() => {
+  autosaveTimeout = setTimeout(() => {
     saveStory(true);
   }, 1500);
 });
@@ -266,28 +268,28 @@ async function saveStory(silent)
     if(res.status === 400)
     {
       console.error("Invalid write request:", res.status);
-      showSaveStatus("Save Failed.", false, silent);
+      showSaveStatus("save failed");
       return;
     }
 
     if(res.status === 404)
     {
       console.error("Session not found OR user not in session:", res.status);
-      showSaveStatus("Save Failed.", false, silent);
+      showSaveStatus("save failed");
       return;
     }
 
     if(!res.ok)
     {
       console.error("Unexpected error:", res.status);
-      showSaveStatus("Save Failed.", false, silent);
+      showSaveStatus("save failed");
       return;
     }
 
     console.log("Story Updated.");
     isDirty = false;
 
-    showSaveStatus("Saved ✓", true, silent);
+    showSaveStatus("saved");
 
     const data = await res.json();
 
@@ -309,34 +311,51 @@ async function saveStory(silent)
   }
 }
 
-function showSaveStatus(message, success = true, silent = false)
+function showSaveStatus(message)
 {
-  if(silent)
+  save_icon.classList.remove("saving");
+  save_text.classList.remove("hidden");
+  clearTimeout(saveTextTimeout);
+
+  if(message === "saved")
   {
-    return;
+    save_icon.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M8 12.5l2.5 2.5L16 9.5"/>
+    </svg>`;
+    save_text.textContent = message;
+    
+    saveTextTimeout = setTimeout(() => {
+      save_text.classList.add("hidden");
+      setTimeout(() => {
+        save_text.textContent = "";
+      }, 250);
+    }, 2000);
   }
 
-  save_status.textContent = message;
-  save_status.classList.add("visible");
-
-  if(success === false)
+  else if(message === "saving...")
   {
-    save_status.style.color = "red";
-  }
-
-  else if(success === null)
-  {
-    save_status.style.color = "#666";
+    save_icon.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9" stroke-opacity="0.25" />
+      <path d="M12 3a9 9 0 0 1 9 9" />
+    </svg>`;
+    const icon = save_icon.querySelector("svg");
+    icon.classList.add("spin");
+    save_text.textContent = message;
   }
 
   else
   {
-    save_status.style.color = "green";
+    save_icon.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M9 9l6 6"/>
+      <path d="M15 9l-6 6"/>
+    </svg>`;
+    save_text.textContent = message;
   }
-
-  setTimeout(() => {
-    save_status.classList.remove("visible");
-  }, 1500);
 }
 
 download_button.addEventListener("click", (event) => {

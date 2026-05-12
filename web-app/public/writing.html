@@ -36,7 +36,15 @@
         <div class="actions">
             <button id="exit_session">Exit</button>
             <button id="save_story">Save</button>
-            <span id="save_status"></span>
+            <div id="save_status" class="idle">
+                <span id="save_icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M8 12.5l2.5 2.5L16 9.5"/>
+                    </svg>
+                </span>
+                <span id="save_text"></span>
+            </div>
             
             <div class="download">
                 <button id="download_story">
