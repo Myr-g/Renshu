@@ -185,6 +185,7 @@ section {
 
 #save_icon svg {
   display: block;
+  color: #444;
 }
 
 #save_icon.saving svg {
@@ -310,6 +311,14 @@ section {
 
 :root[data-theme="dark"] #story_editor::placeholder {
   color: #777;
+}
+
+:root[data-theme="dark"] #save_status {
+  color: #e6e6e6;
+}
+
+:root[data-theme="dark"] #save_icon svg {
+  color: #e6e6e6;
 }
 
 :root[data-theme="dark"] button {
