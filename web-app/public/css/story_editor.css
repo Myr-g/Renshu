@@ -264,16 +264,16 @@ section {
 
 /* Theme */
 #theme_toggle {
-  top: 1rem;
-  right: 1rem;
-  font-size: 1rem;
+  width: 100%;
+  display: flex;
+  gap: 0.5rem;
 
   padding: 6px 12px;
-  border-radius: 6px;
 
   background: var(--bg-paper);
   color: var(--text-main);
-  border: 1px solid var(--border-subtle);
+ 
+  align-items: center;
 
   cursor: pointer;
   z-index: 3000;
@@ -328,4 +328,8 @@ section {
 
 :root[data-theme="dark"] button:hover:not(:disabled) {
   background-color: #333;
+}
+
+:root[data-theme="dark"] #theme_toggle:hover {
+  background: #333;
 }
