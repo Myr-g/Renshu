@@ -16,6 +16,7 @@ const txt_download_button = document.getElementById("txt_download");
 const pdf_download_button = document.getElementById("pdf_download");
 
 let regenerationDisabled = false;
+let internalPrompt = "";
 let isExiting = false;
 let autosaveTimeout;
 let saving = false;
@@ -91,7 +92,12 @@ async function saveTitle()
 // Prompt Regeneration
 regen_button.addEventListener("click", async () => {
   const data = await getSessionData();
-  generatePrompt(data.promptType, data.genre);
+  await generatePrompt(data.promptType, data.genre);
+
+  if(data.promptType === "challenge")
+  {
+    story_prompt.innerHTML = story_prompt.textContent.replace(/\n/g, "<br>");
+  }
 });
 
 async function generatePrompt(source, genre)
@@ -129,12 +135,8 @@ async function generatePrompt(source, genre)
 
     const data = await res.json();
     story_prompt.textContent = data.prompt;
+    internalPrompt = data.prompt;
     saveStory(true);
-
-    if(source === "challenge")
-    {
-      story_prompt.innerHTML = story_prompt.textContent.replace(/\n/g, "<br>");
-    }
   }
 
   catch (err)
@@ -248,7 +250,7 @@ async function saveStory(silent)
   const sessionId = localStorage.getItem("sessionId");
   const userId = localStorage.getItem("userId");
   const title = story_title.textContent.trim();
-  const prompt = story_prompt.textContent.trim();
+  const prompt = internalPrompt;
   const text = story_text.value;
 
   if(!sessionId || !userId)
@@ -465,7 +467,12 @@ window.addEventListener("DOMContentLoaded", async() => {
 
     if(!data.prompt && !regenerationDisabled)
     {
-      generatePrompt(data.promptType, data.genre);
+      await generatePrompt(data.promptType, data.genre);
+
+      if(data.promptType === "challenge")
+      {
+        story_prompt.innerHTML = story_prompt.textContent.replace(/\n/g, "<br>");
+      }
     }
 
     else

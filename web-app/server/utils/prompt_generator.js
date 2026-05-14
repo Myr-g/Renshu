@@ -254,7 +254,7 @@ const challenge_rules = [
   "make the ending recontextualize the entire story",
   "focus on atmosphere over action",
   "imply conflict without directly stating it",
-  "write the story as a jorunal entry",
+  "write the story as a journal entry",
   "do not name any characters",
   "end the story with an unanswered question"
 ]
@@ -300,11 +300,10 @@ function generateChallengePrompt(genre)
   let tension = Math.random() < 0.5 ? "{condition}" : "{strange_event}";
   const challenge_rule = randomItem(challenge_rules);
 
-  const template = `Write a short story or scene that:
-  - includes ${subject}
-  - takes place {location}
-  - includes an element where ${tension}
-  - rule: ${challenge_rule}`;
+  const template = `Write a short story or scene that:\n` +
+  `- includes ${subject}\n` +
+  `- takes place {location}\n` +
+  `- includes an element where ${tension}\n- rule: ${challenge_rule}`;
 
   return template.replace(/\{(\w+)\}/g, (match, key) => {
     const initial_word_bank = general_word_banks[key];

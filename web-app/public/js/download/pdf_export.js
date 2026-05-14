@@ -41,20 +41,24 @@ async function formatStoryToPdf(story)
     const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
     const fontSize = 12;
 
-    for(const line of formattedStory)
+    for(const line of formattedStory) 
     {
-        if(line.trim() === "")
-        {
-            y -= 20;
-        }
+        // Split on newline characters
+        const actualLines = line.split("\n");
 
-        else
+        for(const sub of actualLines) 
         {
-            const wrapped = wrapText(line, font, fontSize, maxWidth);
-
-            for(const wrappedLine of wrapped)
+            if(sub.trim() === "") 
             {
-                if(y < margin)
+                y -= 20;
+                continue;
+            }
+
+            const wrapped = wrapText(sub, font, fontSize, maxWidth);
+
+            for(const wrappedLine of wrapped) 
+            {
+                if(y < margin) 
                 {
                     page = pdfDoc.addPage();
                     y = height - margin;
@@ -65,6 +69,7 @@ async function formatStoryToPdf(story)
             }
         }
     }
+
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: "application/pdf" });
