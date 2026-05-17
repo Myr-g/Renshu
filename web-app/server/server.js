@@ -1,6 +1,5 @@
 const express = require("express");
 const { createSession, getSessions, getSessionById, addUserToSession, removeUserFromSession } = require("./sessions");
-import { loadGenres } from "../public/scripts/genres/genres.js";
 const path = require("path");
 
 const app = express();
@@ -73,11 +72,10 @@ app.get('/sessions/:id', (req, res) => {
 });
 
 // Creates a new session
-app.post('/sessions', (req, res) => {
+app.post('/sessions', async(req, res) => {
     console.log(req.body);
 
     const {title, genre, promptType} = req.body;
-    const genre_list = await loadGenres();
     let chosen_genre = null;
 
     if(!title || !genre)
@@ -86,22 +84,7 @@ app.post('/sessions', (req, res) => {
         return;
     }
 
-    for(let i = 0; i < genre_list.length; i++)
-    {
-        if(genre.toLowerCase() == genre_list[i].toLowerCase())
-        {
-            chosen_genre = genre_list[i];
-            break;
-        }
-    }
-
-    if(chosen_genre === null)
-    {
-        res.sendStatus(400);
-        return;
-    }
-
-    const session = createSession(title, chosen_genre, promptType);
+    const session = createSession(title, genre, promptType);
 
     if(!session)
     {
