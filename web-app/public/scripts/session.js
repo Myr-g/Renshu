@@ -1,3 +1,4 @@
+import { loadPromptGeneratorData, generatePrompt as generatePromptPG, generateChallengePrompt } from "./prompt_generator/prompt_generator.js";
 import { formatStoryToTxt } from "./download/txt_export.js";
 import { formatStoryToPdf } from "./download/pdf_export.js";
 
@@ -86,13 +87,14 @@ async function saveTitle()
   story_title.textContent = newTitle;
   page_name.textContent = newTitle;
 
-  saveStory(true);
+  saveStory();
 }
 
 // Prompt Regeneration
 regen_button.addEventListener("click", async () => {
   const data = await getSessionData();
-  await generatePrompt(data.promptType, data.genre);
+  data.prompt = await generatePrompt(data.promptType, data.genre);
+  story_prompt.textContent = data.prompt;
 
   if(data.promptType === "challenge")
   {
@@ -111,53 +113,36 @@ async function generatePrompt(source, genre)
   const icon = regen_button.querySelector('svg')
   icon.classList.add('spin');
 
-  try
+  let prompt = "";
+
+  if(source === "template")
   {
-    const res = await fetch(`/prompts/generate`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({source, genre})
-    });
-
-    if(!res.ok) 
-    {
-      console.error("Prompt generation failed:", res.status);
-      regen_button.disabled = false;
-      regen_button.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 2v6h-6"/>
-        <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
-        <path d="M3 22v-6h6"/>
-        <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
-      </svg>`;
-      return;
-    }
-
-    const data = await res.json();
-    story_prompt.textContent = data.prompt;
-    internalPrompt = data.prompt;
-    saveStory(true);
+    prompt = generatePromptPG(genre);
   }
 
-  catch (err)
+  else if(source === "challenge")
   {
-    console.error(err);
+    prompt = generateChallengePrompt(genre);
   }
 
-  finally 
+  internalPrompt = prompt;
+  saveStory();
+
+  if(!regenerationDisabled) 
   {
-    if(!regenerationDisabled) 
-    {
-      regen_button.disabled = false;
-      regen_button.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 2v6h-6"/>
-        <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
-        <path d="M3 22v-6h6"/>
-        <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
-      </svg>`;
-    }
+    regen_button.disabled = false;
+    regen_button.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+	    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+		    <path d="M20.5 8c-1.392-3.179-4.823-5-8.522-5C7.299 3 3.453 6.552 3 11.1" />
+		    <path d="M16.489 8.4h3.97A.54.54 0 0 0 21 7.86V3.9M3.5 16c1.392 3.179 4.823 5 8.522 5c4.679 0 8.525-3.552 8.978-8.1" />
+		    <path d="M7.511 15.6h-3.97a.54.54 0 0 0-.541.54v3.96" />
+	    </g>
+    </svg>`;
   }
+
+  return prompt;
 }
 
 // Exit Session
@@ -220,7 +205,7 @@ exit_button.addEventListener("click", async () => {
 // Manual save
 save_button.addEventListener("click", async () => {
   clearTimeout(autosaveTimeout);
-  saveStory(false);
+  saveStory();
 });
 
 // Autosave
@@ -234,11 +219,11 @@ story_text.addEventListener("input", async () => {
   clearTimeout(autosaveTimeout);
 
   autosaveTimeout = setTimeout(() => {
-    saveStory(true);
+    saveStory();
   }, 1500);
 });
 
-async function saveStory(silent)
+async function saveStory()
 {
   if(saving)
   {
@@ -460,36 +445,37 @@ window.addEventListener("DOMContentLoaded", async() => {
 
   const data = await getSessionData();
 
-    const title = document.getElementById("title");
-    title.textContent = data.title;
-    story_title.textContent = data.title;
-    regenerationDisabled = data.promptLocked;
+  page_name.textContent = data.title;
+  story_title.textContent = data.title;
+
+  if(data.promptType === "none")
+  {
+    regenerationDisabled = true;
+    regen_button.disabled = true;
+    regen_button.hidden = true;
+  }
+
+  else
+  {
+    await loadPromptGeneratorData();
 
     if(!data.prompt && !regenerationDisabled)
     {
-      await generatePrompt(data.promptType, data.genre);
-
-      if(data.promptType === "challenge")
-      {
-        story_prompt.innerHTML = story_prompt.textContent.replace(/\n/g, "<br>");
-      }
+      data.prompt = await generatePrompt(data.promptType);
     }
 
-    else
+    story_prompt.textContent = data.prompt;
+
+    if(data.promptType === "challenge")
     {
-      story_prompt.textContent = data.prompt;
-      
-      if(data.promptType === "challenge")
-      {
-        story_prompt.innerHTML = story_prompt.textContent.replace(/\n/g, "<br>");
-      }
+      story_prompt.innerHTML = story_prompt.textContent.replace(/\n/g, "<br>");
     }
+  }
 
-    if(regenerationDisabled && regen_button)
-    {
-      regen_button.disabled = true;
-      regen_button.textContent = "Prompt Locked";
-    }
+  if(regenerationDisabled && regen_button)
+  {
+    regen_button.disabled = true;
+  }
 
-    story_text.value = data.content;
+  story_text.value = data.content;
 });

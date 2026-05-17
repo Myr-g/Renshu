@@ -61,7 +61,7 @@ section {
 
 /* Soft divider between sections */
 section:not(:last-child) {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #ccc;
 }
 
 /* Forms */
@@ -128,6 +128,13 @@ button:active {
   border-radius: 12px;
 
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+#new_story_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 /* New Story Panel */
@@ -390,8 +397,8 @@ ul {
   gap: 1rem;
 }
 
-/* Theme */
-#theme_toggle {
+/* Sidebar Items */
+.sidebar_item {
   width: 100%;
   display: flex;
   gap: 0.5rem;
@@ -407,7 +414,7 @@ ul {
   z-index: 3000;
 }
 
-#theme_toggle:hover {
+.sidebar_item:hover {
   background: rgba(0,0,0,0.05);
 }
 
@@ -422,6 +429,11 @@ ul {
 
   --border-subtle: #333;
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Soft divider between sections */
+:root[data-theme="dark"] section:not(:last-child) {
+  border-bottom: 1px solid #555;
 }
 
 :root[data-theme="dark"] button {
@@ -474,10 +486,6 @@ ul {
   background-color: #242424;
 }
 
-:root[data-theme="dark"] li {
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-:root[data-theme="dark"] #theme_toggle:hover {
+:root[data-theme="dark"] .sidebar_item:hover {
   background: #333;
 }

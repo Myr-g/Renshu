@@ -263,7 +263,7 @@ section {
 }
 
 /* Theme */
-#theme_toggle {
+.sidebar_item {
   width: 100%;
   display: flex;
   gap: 0.5rem;
@@ -279,7 +279,7 @@ section {
   z-index: 3000;
 }
 
-#theme_toggle:hover {
+.sidebar_item:hover {
   background: rgba(0,0,0,0.05);
 }
 
@@ -330,6 +330,6 @@ section {
   background-color: #333;
 }
 
-:root[data-theme="dark"] #theme_toggle:hover {
+:root[data-theme="dark"] .sidebar_item:hover {
   background: #333;
 }

@@ -1,0 +1,12 @@
+[
+  "{character_adj} {character} discovers {object} {location}, but {condition}.",
+  "{character_adj} {character} receives {object} with a message that reads: \"{message}\".",
+  "{character_adj} {character} must {goal}, but {secondary_character} is trying to stop them.",
+  "before {event}, {character_adj} {character} must {goal}, or {consequence}.",
+  "{character_adj} {character} and {secondary_character} both want {object}, but {condition}.",
+  "after discovering {object}, {character_adj} {character} makes a rash decision—but {condition}.",
+  "when {strange_event} {location}, everybody ignores it—except {character_adj} {character}.",
+  "{character_adj} {character} realizes {condition}, and must decide whether or not to {goal}.",
+  "when {object} appears {location}, {character_adj} {character} is forced to {goal}.",
+  "everyone believes {condition}, but {character_adj} {character} knows the truth."
+]

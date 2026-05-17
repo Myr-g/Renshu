@@ -1,7 +1,8 @@
+import { loadGenres } from "./genres/genres.js";
 import { getStories, deleteStory, createStory } from "./story_manager.js";
 
 /*---- DOM Elements ----*/
-const new_story_panel_toggle = document.getElementById("new_story");
+const new_story_panel_toggle = document.getElementById("new_story_button");
 const new_story_panel = document.getElementById("new_story_panel");
 const story_title = document.getElementById("story_title");
 const solo_button = document.getElementById("solo_story");
@@ -80,20 +81,24 @@ collaborative_button.addEventListener("click", () => {
   }
 });
 
-// Populate Genre Dropdown Menu
-fetch('/genres')
-  .then(res => res.json())
-  .then(data => {
-    const select = document.getElementById("genre_select");
-    select.length = 1;
 
-    data.genres.forEach(genre => {
-      const option = document.createElement("option");
-      option.value = genre;
-      option.textContent = genre;
-      select.appendChild(option);
-    });
-  });
+await loadGenreList();
+
+async function loadGenreList()
+{
+  const genres = await loadGenres();
+
+  const select = document.getElementById("genre_select");
+  select.length = 1;
+
+  for(const genre of genres)
+  {
+    const option = document.createElement("option");
+    option.value = genre;
+    option.textContent = genre;
+    select.appendChild(option);
+  }
+}
 
 // Close panel if the cancel button is pressed
 cancel_button.addEventListener("click", () => {
@@ -254,12 +259,9 @@ function loadStoriesList()
       const deleteButton = document.createElement("button");
       deleteButton.classList.add("delete_story")
       deleteButton.innerHTML = `
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="3 6 5 6 21 6"></polyline>
-        <path d="M19 6l-1 14H6L5 6"></path>
-        <path d="M10 11v6"></path>
-        <path d="M14 11v6"></path>
-        <path d="M9 6V4h6v2"></path>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+	      <path d="M0 0h24v24H0z" fill="none" />
+	      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16l-1.58 14.22A2 2 0 0 1 16.432 22H7.568a2 2 0 0 1-1.988-1.78zm3.345-2.853A2 2 0 0 1 9.154 2h5.692a2 2 0 0 1 1.81 1.147L18 6H6zM2 6h20m-12 5v5m4-5v5" />
       </svg>`;
 
       deleteButton.addEventListener("click", (event) => {

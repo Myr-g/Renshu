@@ -1,7 +1,6 @@
 const express = require("express");
-const { getGenres } = require("./genres");
 const { createSession, getSessions, getSessionById, addUserToSession, removeUserFromSession } = require("./sessions");
-const { generatePrompt, generateChallengePrompt } = require("./utils/prompt_generator");
+import { loadGenres } from "../public/scripts/genres/genres.js";
 const path = require("path");
 
 const app = express();
@@ -11,12 +10,6 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 app.get("/", (req, res) => {
     res.send("Collaborative Story Server API is running");
 });
-
-// Gets the list of genres
-app.get('/genres', (req, res) => {
-    const genre_list = getGenres();
-    res.status(200).json({genres: genre_list});
-})
 
 // Gets a list of sessions with simplified information about each
 app.get('/sessions', (req, res) => {
@@ -84,7 +77,7 @@ app.post('/sessions', (req, res) => {
     console.log(req.body);
 
     const {title, genre, promptType} = req.body;
-    const genre_list = getGenres();
+    const genre_list = await loadGenres();
     let chosen_genre = null;
 
     if(!title || !genre)
@@ -183,45 +176,6 @@ app.post('/sessions/:id/leave', (req, res) => {
     res.status(200).json({
         userId: userId,
     });
-});
-
-// Generates a writing prompt if and only if prompt generation is not locked
-app.post('/prompts/generate', (req, res) => {
-    const {source, genre} = req.body;
-
-    if(!source || !["none", "template", "challenge", "community", "ai"].includes(source)) 
-    {
-        return res.sendStatus(400);
-    }
-
-    let prompt = "";
-
-    if(source === "none")
-    {
-        prompt = "";
-    }
-
-    else if(source === "template")
-    {
-        prompt = generatePrompt(genre);
-    }
-
-    else if (source === "challenge") 
-    {
-        prompt = generateChallengePrompt(genre);
-    }
-
-    else if (source === "community") 
-    {
-        // future community prompt logic
-    }
-
-    else if(source === "ai")
-    {
-        // whatever would be needed for ai integration
-    }
-
-    res.status(200).json({ prompt });
 });
 
 // Allows user to replace or add text to a sessions' story

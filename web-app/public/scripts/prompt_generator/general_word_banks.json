@@ -1,0 +1,141 @@
+{
+  "character": [
+    "traveler",
+    "survivor",
+    "detective",
+    "college student",
+    "journalist",
+    "merchant",
+    "scientist",
+    "artist",
+    "librarian",
+    "messenger",
+    "teacher",
+    "musician",
+    "author",
+    "photographer",
+    "athlete",
+    "programmer",
+    "witness",
+    "suspect"
+  ],
+
+  "character_adj": [
+    "a young",
+    "an experienced",
+    "a quiet",
+    "a curious",
+    "a disgraced",
+    "a paranoid",
+    "an obsessive",
+    "an overly ambitious",
+    "a sleep-deprived",
+    "a guilt-ridden"
+  ],
+
+  "secondary_character": [
+    "a rival",
+    "an old friend",
+    "a mysterious stranger",
+    "a former partner",
+    "a childhood friend",
+    "a traveling companion",
+    "a curious journalist",
+    "a determined investigator"
+  ],
+
+  "object": [
+    "a locked journal",
+    "a strange key",
+    "a sealed envelope",
+    "an old photograph",
+    "a broken watch",
+    "a weathered map",
+    "a small wooden box",
+    "a glass bottle",
+    "a faded diary",
+    "a mysterious coin",
+    "an antique compass",
+    "a bundle of letters"
+  ],
+
+  "location": [
+    "in an abandoned town",
+    "in a quiet village",
+    "in a crowded marketplace",
+    "on a lonely road",
+    "inside of a forgotten library",
+    "inside of an isolated cabin",
+    "in a small coastal town",
+    "in a narrow alley",
+    "on a remote island",
+    "inside an underground tunnel",
+    "in a dusty attic",
+    "at an old train station",
+    "in a public park"
+  ],
+
+  "event": [
+    "sunrise",
+    "noon",
+    "midnight",
+    "a town festival",
+    "a sudden storm",
+    "a citywide blackout",
+    "a wedding",
+    "a funeral",
+    "an important meeting"
+  ],
+
+  "strange_event": [
+    "with each passing day, people feel lighter than before",
+    "everyone forgets the same person",
+    "people grow slightly less aware of one another each day",
+    "reflections begin moving on their own",
+    "someone they know disappears without a trace",
+    "they begin hearing their own thoughts spoken aloud",
+    "a stranger recognizes them—but they’ve never met",
+    "they wake up with memories that aren’t theirs"
+  ],
+
+  "message": [
+    "You were not meant to find this",
+    "Meet me before midnight",
+    "Trust no one",
+    "You were right all along",
+    "Burn this after reading",
+    "Someone is watching",
+    "You must leave tonight",
+    "It begins again"
+  ],
+
+  "goal": [
+    "deliver a message that could change everything",
+    "uncover the truth behind a long-buried secret",
+    "protect something that was never meant to be found",
+    "reach the meeting point before it's too late",
+    "escape before the situation turns deadly",
+    "meet a contact who may not be trustworthy",
+    "stay one step ahead of someone hunting them",
+    "decipher a message no one else can understand",
+    "find out who is really behind it all",
+    "prove something everyone else denies",
+    "track down someone who doesn’t want to be found",
+    "figure out what’s real and what isn’t",
+    "prevent a mistake that can’t be undone"
+  ],
+
+  "condition": [
+    "it's being kept hidden for a reason",
+    "they may not survive long enough to understand it",
+    "they're being watched",
+    "every answer only leads to more questions",
+    "it isn't what it first appeared to be",
+    "they can’t trust their own memory",
+    "they are being framed for something they didn’t do",
+    "they’re already too late to stop what’s coming",
+    "someone they trusted has betrayed them",
+    "someone is manipulating what they think they know",
+    "they can’t tell anyone what they’ve discovered"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "horror": {
+    "add": {
+      "character": [
+        "mortician",
+        "night guard",
+        "medium",
+        "psychologist",
+        "paranormal investigator"
+      ],
+
+      "object": [
+        "an old tape recorder",
+        "a blood-stained journal",
+        "an antique doll",
+        "a rusty crucifix"
+      ],
+
+      "location": [
+        "in an empty parking garage",
+        "in an abandoned church",
+        "at a cemetery covered in heavy fog"
+      ],
+
+      "message": [
+        "you shouldn't have come here",
+        "you won't be alone much longer",
+        "it's your turn now"
+      ]
+    },
+
+    "override": {
+      "strange_event": [
+        "the lights start flickering in a constant rhythm",
+        "the wind comes to a still",
+        "shadows linger around longer than their owners"
+      ]
+    }
+  }
+}
