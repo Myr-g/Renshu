@@ -1,25 +1,65 @@
-## Collaborative Story Server
+# Creative Writing Practice App
 A simple, cozy space to practice creative writing — alone or with others.
 
 ## Overview
-The Creative Writing Practice App is a browser‑based tool designed to help anyone practice creative writing in a low‑pressure, customizable environment. Whether you’re warming up, building a daily habit, experimenting with genres, or drafting full stories, the app gives you a clean “canvas” and optional prompts to spark ideas.
+The Creative Writing Practice App is a browser‑based tool for writers who want a simple, flexible place to practice. You can start a new story, choose a genre, generate prompts, write freely, and save your work locally. Collaborative writing is already supported, with a planned upgrade to WebSockets for smoother real‑time editing.
+
+The long‑term vision includes community features, deeper customization, and a more powerful prompt generator.
 
 **Note:** The original C TCP server prototype can be found in it's own repo (https://github.com/Myr-g/cwpa-c-prototype)
 
 ## Features
-- Browser‑based UI (HTML/CSS/JS)
+### Story Creation & Management
+- Create new stories
 
-- Node.js/Express backend
+- Optional genre selection
 
-- REST API for sessions and story updates
+- Optional prompt selection
 
-- Dark‑mode styling
+- Template‑based & Challenge Prompts
+
+- Saving to local storage
+
+- Resume stories writing
+
+- Delete stories
+
+### Writing Experience
+- Clean, distraction‑free editor
+
+- Dark mode
+
+- Responsive layout
+
+- Prompt regeneration
+
+- TXT & PDF download options
+
+## In-Progress / Active Development
+### Prompt Generator Upgrades
+- More templates
+
+- Larger general word banks
+
+- More genre‑specific word banks
+
+- Cleaner UI for prompt selection
+
+### Collaborative Writing Overhaul
+- WebSockets
+
+- More stable real‑time syncing
+
+- Better conflict handling
+
+- Cleaner session management
 
 
-## Build & Run
+
+## Run Locally
 ```
 npm install
 npm start
 ```
 
-then go to http://localhost:8080
+Visit: http://localhost:8080
