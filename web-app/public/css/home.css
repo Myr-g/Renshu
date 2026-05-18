@@ -3,8 +3,8 @@
   box-sizing: border-box;
 }
 
-/*---- Variables ----*/
-:root {
+/*---- Theme Variables ----*/
+:root[data-theme="light"] {
   --space-sm: 0.5rem;
   --space-md: 1.25rem;
   --space-lg: 2.5rem;
@@ -18,6 +18,24 @@
 
   --border-subtle: #333;
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.6);
+
+  --section-divider: #ccc;
+
+  --button-bg: #444;
+  --button-border: #444;
+  --button-hover: #333;
+
+  --input-select-border: #ccc;
+
+  --story-type-bg: #333;
+  --story-type-color: white;
+
+  --story-item-hover: #f3f3f3;
+
+  --svg-color: #555;
+  --svg-hover: #222;
+
+  --sidebar-item-hover: rgba(0,0,0,0.05);
 }
 
 /*---- General ----*/
@@ -61,7 +79,7 @@ section {
 
 /* Soft divider between sections */
 section:not(:last-child) {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--section-divider);
 }
 
 /* Forms */
@@ -82,6 +100,8 @@ input, select {
 
   padding: 0.5rem 0.6rem;
 
+  color: var(--text-main);
+
   border: 1px solid #ccc;
   border-radius: 4px;
   border-color: var(--border-subtle);
@@ -100,10 +120,10 @@ button {
 
   padding: 0.5rem 1rem;
 
-  border: 1px solid #444;
+  border: 1px solid var(--button-border);
   border-radius: 4px;
 
-  background-color: #444;
+  background-color: var(--button-bg);
   color: white;
 
   cursor: pointer;
@@ -111,7 +131,7 @@ button {
 }
 
 button:hover {
-  background-color: #333;
+  background-color: var(--button-hover);
 }
 
 button:active {
@@ -211,8 +231,8 @@ button:active {
 }
 
 .story_type.active {
-  background: var(--bg-accent, #333);
-  color: white;
+  background: var(--story-type-bg);
+  color: var(--story-type-color);
 }
 
 .story_type:hover {
@@ -258,7 +278,7 @@ button:active {
 }
 
 .story-item:hover {
-  background-color: #f3f3f3;
+  background-color: var(--story-item-hover);
 }
 
 .story-item:focus {
@@ -290,12 +310,12 @@ button:active {
 }
 
 .delete_story svg {
-  color: #555;
+  color: var(--svg-color);
   transition: color 0.15s ease;
 }
 
 .delete_story:hover svg {
-  color: #222
+  color: var(--svg-hover)
 }
 
 /* Sessions list */
@@ -316,7 +336,7 @@ ul {
 }
 
 .session-item:hover {
-  background-color: #f3f3f3;
+  background-color: var(--story-item-hover);
 }
 
 .session-item:focus {
@@ -415,11 +435,17 @@ ul {
 }
 
 .sidebar_item:hover {
-  background: rgba(0,0,0,0.05);
+  background: var(--sidebar-item-hover);
 }
 
-/* ---- Dark Mode ---- */
+/* ---- Themes ---- */
+
+/* Dark */
 :root[data-theme="dark"] {
+  --space-sm: 0.5rem;
+  --space-md: 1.25rem;
+  --space-lg: 2.5rem;
+
   --bg-page: #121212;
   --bg-paper: #1b1b1b;
   --bg-options: #2a2a2a;
@@ -429,63 +455,20 @@ ul {
 
   --border-subtle: #333;
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.6);
-}
 
-/* Soft divider between sections */
-:root[data-theme="dark"] section:not(:last-child) {
-  border-bottom: 1px solid #555;
-}
+  --section-divider: #555;
 
-:root[data-theme="dark"] button {
-  background-color: #2a2a2a;
-  border-color: #444;
-}
+  --button-bg: #2a2a2a;
+  --button-border: #444;
+  --button-hover: #333;
 
-:root[data-theme="dark"] button:hover:not(:disabled) {
-  background-color: #333;
-}
+  --story-type-bg: #e6e6e6;
+  --story-type-color: black;
 
-:root[data-theme="dark"] input, select {
-  border-color: #444;
-  color: var(--text-main);
-}
+  --story-item-hover: #242424;
 
-:root[data-theme="dark"] .story_type_group {
-  border: 1px solid var(--border-subtle);
-}
+  --svg-color: #e6e6e6;
+  --svg-hover: #a0a0a0;
 
-:root[data-theme="dark"] .story_type.active {
-  background-color: #e6e6e6;
-  color: black;
-}
-
-:root[data-theme="dark"] .story-item:hover {
-  background-color: #242424;
-}
-
-:root[data-theme="dark"] .delete_story {
-  background: transparent;
-  border: transparent;
-  padding: none;
-}
-
-:root[data-theme="dark"] .delete_story:hover {
-  background: transparent !important;
-}
-
-:root[data-theme="dark"] .delete_story svg {
-  color: #e6e6e6;
-  transition: color 0.15s ease;
-}
-
-:root[data-theme="dark"] .delete_story:hover svg {
-  color: #a0a0a0;
-}
-
-:root[data-theme="dark"] .session-item:hover {
-  background-color: #242424;
-}
-
-:root[data-theme="dark"] .sidebar_item:hover {
-  background: #333;
+  --sidebar-item-hover: #333;
 }

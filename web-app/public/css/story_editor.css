@@ -4,7 +4,7 @@
 }
 
 /*---- Variables ----*/
-:root {
+:root[data-theme="light"] {
   --bg-page: #f6f6f6;
   --bg-paper: #ffffff;
 
@@ -13,6 +13,19 @@
 
   --border-subtle: #ddd;
   --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.04);
+
+  --button-bg: #444;
+  --button-border: #ccc;
+  --button-text: #fff;
+  --button-hover: #333;
+
+  --placeholder-color: #aaa;
+
+  --save-status-color: #444;
+
+  --svg-color: #444;
+
+  --sidebar-item-hover: rgba(0,0,0,0.05);
 }
 
 /*---- General ----*/
@@ -38,10 +51,10 @@ button {
   font-size: 0.85rem;
   padding: 0.4rem 0.8rem;
 
-  background-color: #444;
-  color: #fff;
+  background-color: var(--button-bg);
+  color: var(--button-text);
 
-  border: 1px solid #ccc;
+  border: 1px solid var(--button-border);
   border-radius: 4px;
 
   cursor: pointer;
@@ -49,7 +62,7 @@ button {
 }
 
 button:hover:not(:disabled) {
-  background-color: #333;
+  background-color: var(--button-hover);
 }
 
 button:disabled {
@@ -105,18 +118,18 @@ section {
 
   font-size: 0.85rem;
 
-  background-color: #444;
-  border: 1px solid #333;
+  background-color: var(--button-bg);
+  border: 1px solid var(--button-border);
   border-radius: 4px;
 
-  color: white;
+  color: var(--button-text);
   cursor: pointer;
 
   transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 
 #regenerate_prompt:hover:not(:disabled) {
-  background-color: #333;
+  background-color: var(--button-hover);
 }
 
 #regenerate_prompt:focus-visible {
@@ -158,7 +171,7 @@ section {
 }
 
 #story_editor::placeholder {
-  color: #aaa;
+  color: var(--placeholder-color);
 }
 
 /* Actions */
@@ -173,7 +186,7 @@ section {
 #save_status {
   margin-left: 0.2rem;
   font-size: 0.9rem;
-  color: #444;
+  color: var(--save-status-color);
   
   display: flex;
   align-items: center;
@@ -185,7 +198,7 @@ section {
 
 #save_icon svg {
   display: block;
-  color: #444;
+  color: var(--svg-color);
 }
 
 #save_icon.saving svg {
@@ -280,10 +293,12 @@ section {
 }
 
 .sidebar_item:hover {
-  background: rgba(0,0,0,0.05);
+  background: var(--sidebar-item-hover);
 }
 
-/*---- Dark Mode ----*/
+/*---- Themes ----*/
+
+/* Dark */
 :root[data-theme="dark"] {
   --bg-page: #121212;
   --bg-paper: #1b1b1b;
@@ -293,43 +308,17 @@ section {
 
   --border-subtle: #333;
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.6);
-}
 
-:root[data-theme="dark"] #regenerate_prompt {
-  background-color: #2a2a2a;
-  border-color: #444;
-}
+  --button-bg: #2a2a2a;
+  --button-border: #444;
+  --button-text: #fff;
+  --button-hover: #333;
 
-:root[data-theme="dark"] #regenerate_prompt:hover:not(:disabled) {
-  background-color: #333;
-}
+  --placeholder-color: #777;
 
-:root[data-theme="dark"] #story_editor {
-  background-color: transparent;
-  color: var(--text-main);
-}
+  --save-status-color: #e6e6e6;
 
-:root[data-theme="dark"] #story_editor::placeholder {
-  color: #777;
-}
+  --svg-color: #e6e6e6;
 
-:root[data-theme="dark"] #save_status {
-  color: #e6e6e6;
-}
-
-:root[data-theme="dark"] #save_icon svg {
-  color: #e6e6e6;
-}
-
-:root[data-theme="dark"] button {
-  background-color: #2a2a2a;
-  border-color: #444;
-}
-
-:root[data-theme="dark"] button:hover:not(:disabled) {
-  background-color: #333;
-}
-
-:root[data-theme="dark"] .sidebar_item:hover {
-  background: #333;
+  --sidebar-item-hover: #333;
 }

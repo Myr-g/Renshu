@@ -2,6 +2,14 @@ const home_toggle = document.getElementById("home_toggle");
 const theme_toggle = document.getElementById("theme_toggle");
 const theme_label = document.getElementById("theme_label");
 
+home_toggle.addEventListener("click", () => {
+  if(localStorage.getItem("storyId"))
+  {
+    localStorage.removeItem("storyId");
+    window.location.href = "/";
+  }
+})
+
 function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
   localStorage.setItem("theme", theme);
@@ -9,7 +17,7 @@ function applyTheme(theme) {
 }
 
 const savedTheme = localStorage.getItem("theme");
-applyTheme(savedTheme || "light");
+applyTheme(savedTheme || "dark");
 
 theme_toggle.addEventListener("click", () => {
   const current = document.documentElement.getAttribute("data-theme");
