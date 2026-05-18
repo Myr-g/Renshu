@@ -1,28 +1,12 @@
 ## Collaborative Story Server
-A multi‑user storytelling platform with both a C TCP server and a modern web‑app interface.
+A simple, cozy space to practice creative writing — alone or with others.
 
 ## Overview
-Collaborative Story Server lets multiple users build a shared story together in real time. The project includes:
+The Creative Writing Practice App is a browser‑based tool designed to help anyone practice creative writing in a low‑pressure, customizable environment. Whether you’re warming up, building a daily habit, experimenting with genres, or drafting full stories, the app gives you a clean “canvas” and optional prompts to spark ideas.
 
-- A C‑based TCP server + CLI client for low‑level networking and concurrency.
-
-- A web‑app version with a browser UI for easier access and broader usability.
-
-- Both versions support joining sessions, writing collaboratively, and viewing the evolving story.
+**Note:** The original C TCP server prototype can be found in it's own repo (https://github.com/Myr-g/cwpa-c-prototype)
 
 ## Features
-### C TCP Server
-- Multi‑client TCP server written in C
-
-- Thread‑safe shared story state
-
-- Command‑based interaction model
-
-- Logging for debugging and auditing
-
-- Modular structure for networking, parsing, and story logic
-
-### Web‑App
 - Browser‑based UI (HTML/CSS/JS)
 
 - Node.js/Express backend
@@ -31,38 +15,8 @@ Collaborative Story Server lets multiple users build a shared story together in 
 
 - Dark‑mode styling
 
-## Running the C Server
-### Build
-```
-gcc -o server src/server/*.c
-gcc -o client src/client/*.c
-```
 
-### Run
-```
-./server
-./client <server-ip> <port>
-```
-
- ### Commands
-JOIN <username>
-
-SESSION CREATE <name> <genre>
-
-SESSION JOIN <name>
-
-LIST SESSIONS
-
-VIEW
-
-WRITE <text>
-
-EXIT SESSION
-
-QUIT
-
-## Running the Web-App
-### Install & Start
+## Build & Run
 ```
 npm install
 npm start
