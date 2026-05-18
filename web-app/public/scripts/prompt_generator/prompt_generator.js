@@ -10,9 +10,8 @@
  * 
  * The resulting prompt should be generally open-ended, allowing writers to have full creative
  * freedom with what they choose to write about.
-*/
-
-/**
+ *
+ * 
  * Templates should establish a narrative setup or tension, using placeholders that are
  * interchangable to ensure a wide variety of different combanations for a single template.
  * 
@@ -22,17 +21,15 @@
  * 
  * Templates should not expect highly-specific outputs for a word bank, and should generally
  * work with most entries and across any genre.
- */
-
-/**
+ *
+ * 
  * General word banks should work across multiple genres and avoid any overly-specific details. They
  * should be compatible with any template and encourage many different variations for any singular 
  * template.
  * 
  * Entries should be relatively short to ensure prompts read naturally.
- */
-
-/**
+ *
+ *
  * Genre-specific word banks should be compatible with any template, while also reinforcing the tone 
  * and/or atmosphere of a given genre without making prompts too repetitive or predictable.
  * 
@@ -41,9 +38,8 @@
  * 
  * Override: replaces the general word banks that do not suit the given genre well,
  * providing a different tone or atmosphere compared to the corresponding general word bank.
- */
-
-/**
+ *
+ * 
  * Challenge prompts provide an alternative structure for prompts, giving only elements
  * of the story and a challenge rule.
  * 
