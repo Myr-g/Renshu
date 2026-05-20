@@ -129,7 +129,7 @@ function generateChallengePrompt(genre)
   const template = `Write a short story or scene that:\n` +
   `- includes ${subject}\n` +
   `- takes place {location}\n` +
-  `- includes an element where ${tension}\n- rule: ${challenge_rule}`;
+  `- includes a moment where ${tension}\n- rule: ${challenge_rule}`;
 
   return template.replace(/\{(\w+)\}/g, (match, key) => {
     const initial_word_bank = data.general_word_banks[key];

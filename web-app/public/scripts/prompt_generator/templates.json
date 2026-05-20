@@ -1,11 +1,14 @@
 [
-  "{character_adj} {character} discovers {object} {location}, but {condition}.",
-  "{character_adj} {character} receives {object} with a message that reads: \"{message}\".",
+  "{location}, {character_adj} {character} discovers {object}, but {condition}.",
+  "while looking over {object}, {character_adj} {character} finds a note that reads: \"{message}\".",
   "before {event}, {character_adj} {character} must {goal}, or {consequence}.",
   "{character_adj} {character} and {secondary_character} both want {object}, but {condition}.",
   "after discovering {object}, {character_adj} {character} makes a rash decision—but {condition}.",
+  "after receiving a message that says \"{message}\", {character_adj} {character} realizes {consequence}.",
+  "during {event}, {character_adj} {character} discovers {object} {location}.",
+  "when {strange_event}, {character_adj} {character} is forced to {goal}.",
   "{character_adj} {character} realizes {condition}, and must decide whether or not to {goal}.",
-  "{character_adj} {character} is approached by {secondary_character}, who claims to know the truth about {object}.",
+  "{secondary_character} approaches {character_adj} {character}, claiming to know the truth about {object}.",
   "rumors spread about {object} found {location}, drawing {character_adj} {character} into something they don’t fully understand.",
   "when {secondary_character} disappears after leaving {object} behind, {character_adj} {character} begins to suspect {condition}."
 ]
