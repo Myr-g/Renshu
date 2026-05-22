@@ -1,4 +1,5 @@
 const home_toggle = document.getElementById("home_toggle");
+const community_toggle = document.getElementById("community_toggle");
 const theme_toggle = document.getElementById("theme_toggle");
 const theme_label = document.getElementById("theme_label");
 
@@ -8,7 +9,25 @@ home_toggle.addEventListener("click", () => {
     localStorage.removeItem("storyId");
     window.location.href = "/";
   }
-})
+
+  else
+  {
+    window.location.href = "/";
+  }
+});
+
+community_toggle.addEventListener("click", () => {
+  if(localStorage.getItem("storyId"))
+  {
+    localStorage.removeItem("storyId");
+    window.location.href = "/community.html";
+  }
+
+  else
+  {
+    window.location.href = "/community.html";
+  }
+});
 
 function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);

@@ -16,7 +16,7 @@
   --text-main: #222;
   --text-muted: #555;
 
-  --border-subtle: #333;
+  --border-subtle: #ddd;
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.6);
 
   --section-divider: #ccc;
@@ -145,6 +145,7 @@ button:active {
   padding: var(--space-lg);
 
   background-color: var(--bg-paper);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
 
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
