@@ -265,6 +265,7 @@ section {
   height: 100vh;
 
   background: var(--bg-paper);
+  border: 1px solid var(--border-subtle);
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
 
   padding: 1rem;
@@ -284,7 +285,7 @@ section {
   padding: 6px 12px;
 
   background: var(--bg-paper);
-  color: var(--text-main);
+  color: var(--text-muted);
  
   align-items: center;
 
@@ -294,6 +295,10 @@ section {
 
 .sidebar_item:hover {
   background: var(--sidebar-item-hover);
+}
+
+.sidebar_item.active {
+  color: var(--text-main);
 }
 
 /*---- Themes ----*/

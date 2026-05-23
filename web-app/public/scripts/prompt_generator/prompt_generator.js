@@ -13,7 +13,7 @@
  *
  * 
  * Templates should establish a narrative setup or tension, using placeholders that are
- * interchangable to ensure a wide variety of different combanations for a single template.
+ * interchangeable to ensure a wide variety of different combinations for a single template.
  * 
  * Placeholders should not have "a", "an", or "the" before them, as that would disrupt the
  * general flow of the template and lowers reusability. Instead, they should go inside the
