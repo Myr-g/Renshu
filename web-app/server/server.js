@@ -1,6 +1,8 @@
 const express = require("express");
 const { createSession, getSessions, getSessionById, addUserToSession, removeUserFromSession } = require("./sessions");
 const path = require("path");
+const { appendToJsonFile } = require("./utils/file_helper");
+const { generatePromptSubmissionId } = require("./utils/ids");
 
 const app = express();
 app.use(express.json());
@@ -227,6 +229,64 @@ app.post('/sessions/:id/write', (req, res) => {
     session.updatedAt = new Date().toISOString();
     res.status(200).json({
         promptLocked: session.promptLocked
+    });
+});
+
+app.post('/community/simple-prompts', (req, res) => {
+    const {submission} = req.body;
+
+    if(!submission || submission.trim() === "")
+    {
+        res.sendStatus(400);
+        return;
+    }
+
+    const filePath = path.join(__dirname, "./data/simple_prompts.json");
+    const id = generatePromptSubmissionId("simple_prompt");
+    const sp_submission = {
+        submissionId: id,
+        submission: submission,
+        submittedAt: new Date().toISOString()
+    };
+
+    appendToJsonFile(filePath, sp_submission);
+
+    res.status(200).json({
+        success: true, 
+        message: "Simple Prompt submission successful."
+    });
+});
+
+app.post('/community/generator-contributions', (req, res) => {
+    const {contribution_type, submission, notes} = req.body;
+
+    if(!contribution_type)
+    {
+        res.sendStatus(400);
+        return;
+    }
+
+    if(!submission || submission.trim() === "")
+    {
+        res.sendStatus(400);
+        return;
+    }
+
+    const filePath = path.join(__dirname, "./data/generator_contributions.json");
+    const id = generatePromptSubmissionId("generator_contribution");
+    const gc_submission = {
+        submissionId: id,
+        contribution_type: contribution_type,
+        submission: submission,
+        additionalNotes: notes,
+        submittedAt: new Date().toISOString()
+    };
+
+    appendToJsonFile(filePath, gc_submission);
+
+    res.status(200).json({
+        success: true, 
+        message: "Generator Contribution submission successful."
     });
 });
 

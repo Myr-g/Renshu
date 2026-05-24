@@ -17,4 +17,17 @@ function generateSessionId()
     return "sess_" + generateId();
 }
 
-module.exports = {generateUserId, generateSessionId};
+function generatePromptSubmissionId(type)
+{
+    if(type === "simple_prompt")
+    {
+        return "simpro_" + generateId();
+    }
+
+    else if(type === "generator_contribution")
+    {
+        return "gencon_" + generateId();
+    }
+}
+
+module.exports = {generateUserId, generateSessionId, generatePromptSubmissionId};

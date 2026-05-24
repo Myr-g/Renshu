@@ -3,16 +3,18 @@ const simple_prompt = document.getElementById("simple_prompt");
 const generator_contribution = document.getElementById("generator_contribution");
 
 const simple_prompt_form = document.getElementById("simple_prompt_form");
+const simple_prompt_submission = document.getElementById("simple_prompt_submission");
 const simple_prompt_cancel = document.getElementById("simple_prompt_cancel");
 const simple_prompt_submit = document.getElementById("simple_prompt_submit");
 
 const generator_contribution_form = document.getElementById("generator_contribution_form");
-const contribution_type = document.getElementById("contribution_type");
+const generator_contribution_type = document.getElementById("contribution_type");
 const contribution_guidelines_toggle = document.getElementById("contribution_guidelines_toggle");
 const contribution_guidelines = document.getElementById("contribution_guidelines");
 const contribution_example_toggle = document.getElementById("contribution_example_toggle");
 const contribution_example = document.getElementById("contribution_example");
 const generator_contribution_submission = document.getElementById("generator_contribution_submission");
+const contribution_notes = document.getElementById("contribution_notes");
 const generator_contribution_cancel = document.getElementById("generator_contribution_cancel");
 const generator_contribution_submit = document.getElementById("generator_contribution_submit");
 
@@ -27,12 +29,34 @@ simple_prompt_cancel.addEventListener("click", (event) => {
     simple_prompt_form.classList.remove("expanded");
 });
 
+simple_prompt_submit.addEventListener("click", async() => {
+    const submission = simple_prompt_submission.value.trim();
+
+    const res = await fetch("/community/simple-prompts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({submission})
+    });
+
+    if(res.status === 400)
+    {
+        console.error("Invalid simple prompt submission request: ", res.status);
+        return;
+    }
+
+    simple_prompt_submission.value = "";
+    simple_prompt_form.classList.remove("expanded");
+
+    const data = await res.json();
+    console.log(data);
+});
+
 /*---- Generator Contribution ----*/
 generator_contribution.addEventListener("click", () => {
     generator_contribution_form.classList.add("expanded");
     simple_prompt_form.classList.remove("expanded");
 
-    if(contribution_type.value === "template")
+    if(generator_contribution_type.value === "template")
     {
         contribution_guidelines.textContent = "Templates should establish a narrative setup or tension, using placeholders that are interchangeable to ensure a wide variety of different combinations for a single template.\n\n" +
         "Placeholders should not have 'a', 'an', or 'the' before them, as that would disrupt the general flow of the template and lowers reusability. Instead, they should go inside the word bank itself.\n\n" +
@@ -44,7 +68,7 @@ generator_contribution.addEventListener("click", () => {
         generator_contribution_submission.placeholder = "Write a reusable template using placeholders...";
     }
 
-    if(contribution_type.value === "word_bank")
+    if(generator_contribution_type.value === "word_bank")
     {
         contribution_guidelines.textContent = "General word banks should work across multiple genres and avoid any overly-specific details. They should be compatible with any template and encourage many different variations for any singular template.\n\n" +
         "Entries should be relatively short to ensure prompts read naturally.\n\n" +
@@ -57,7 +81,7 @@ generator_contribution.addEventListener("click", () => {
         generator_contribution_submission.placeholder = "Add short, versatile entries for a new or existing word bank...";
     }
 
-    if(contribution_type.value === "genre_addition")
+    if(generator_contribution_type.value === "genre_addition")
     {
         contribution_guidelines.textContent = "Genre-specific word banks should be compatible with any template, while also reinforcing the tone and/or atmosphere of a given genre without making prompts too repetitive or predictable.\n\n" +
         "Add: expands on the general word banks, enhancing variability by providing entries that are more specific to a given genre.\n\n" +
@@ -74,7 +98,7 @@ generator_contribution.addEventListener("click", () => {
         generator_contribution_submission.placeholder = "Add genre‑specific entries that enhance tone and atmosphere for a new or existing word bank...";
     }
 
-    if(contribution_type.value === "challenge_rule")
+    if(generator_contribution_type.value === "challenge_rule")
     {
         contribution_guidelines.textContent = "Challenge prompts provide an alternative structure for prompts, giving only elements of the story and a challenge rule.\n\n" +
         "Challenge rules should be made with the intention of getting writers a bit out of their usual comfort zones to enhance their writing by providing specific narrative styles, tropes, or other constraints.\n\n" +
@@ -128,4 +152,30 @@ contribution_example_toggle.addEventListener("click", (event) => {
 generator_contribution_cancel.addEventListener("click", (event) => {
     event.stopPropagation();
     generator_contribution_form.classList.remove("expanded");
-})
+});
+
+generator_contribution_submit.addEventListener("click", async() => {
+    const contribution_type = generator_contribution_type.value;
+    const submission = generator_contribution_submission.value.trim();
+    const notes = contribution_notes.value.trim();
+
+    const res = await fetch("/community/generator-contributions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({contribution_type, submission, notes})
+    });
+
+    if(res.status === 400)
+    {
+        console.error("Invalid generator contribution submission request: ", res.status);
+        return;
+    }
+    
+    generator_contribution_type.value = "template";
+    generator_contribution_submission.value = "";
+    contribution_notes.value = "";
+    generator_contribution_form.classList.remove("expanded");
+
+    const data = await res.json();
+    console.log(data);
+});

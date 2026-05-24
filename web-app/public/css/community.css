@@ -229,8 +229,9 @@ button:active {
 }
 
 #simple_prompt_form.expanded, #generator_contribution_form.expanded {
-  max-height: 1000px;
+  max-height: 1500px;
   opacity: 1;
+  cursor: initial;
 }
 
 
@@ -325,7 +326,7 @@ textarea:focus, select:focus {
   min-height: 90px;
 }
 
-/*---- Stpry Reviews ----*/
+/*---- Story Reviews ----*/
 .story_reviews {
   margin-left: 240px;
   min-height: 100vh;
