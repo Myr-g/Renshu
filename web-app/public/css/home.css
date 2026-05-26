@@ -103,14 +103,14 @@ input, select {
   color: var(--text-main);
 
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 12px;
   border-color: var(--border-subtle);
   background-color: var(--bg-options);
 }
 
 input:focus, select:focus {
   outline: none;
-  border-color: #555;
+  border-color: var(--text-muted);
 }
 
 /* Buttons */
@@ -121,7 +121,7 @@ button {
   padding: 0.5rem 1rem;
 
   border: 1px solid var(--button-border);
-  border-radius: 4px;
+  border-radius: 8px;
 
   background-color: var(--button-bg);
   color: white;
@@ -248,6 +248,11 @@ button:active {
   padding: 6px;
   border: 1px solid var(--border-subtle);
   border-radius: 6px;
+}
+
+#username:focus, #join_username:focus {
+  outline: none;
+  border-color: var(--text-muted);
 }
 
 .actions {
