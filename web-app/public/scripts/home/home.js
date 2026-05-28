@@ -1,5 +1,5 @@
 import { loadGenres } from "./genres/genres.js";
-import { getStories, deleteStory, createStory } from "./story_manager.js";
+import { getStories, deleteStory, createStory } from "../utils/story_manager.js";
 
 /*---- DOM Elements ----*/
 const new_story_panel_toggle = document.getElementById("new_story_button");

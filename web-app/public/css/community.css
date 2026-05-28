@@ -372,7 +372,7 @@ button:active {
 
 .story_tag {
   padding: 0.25rem 0.6rem;
-  background: var(--bg-subtle);
+  background: transparent;
   border: 1px solid var(--border-subtle);
   border-radius: 999px;
 
@@ -385,7 +385,7 @@ button:active {
 
 .story_excerpt {
   margin-bottom: 1rem;
-  line-height: 1.8;
+  line-height: 1.7;
 
   color: var(--text-main);
 

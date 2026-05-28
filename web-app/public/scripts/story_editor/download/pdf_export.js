@@ -1,4 +1,4 @@
-import { formatStoryForDownload } from "../story_manager.js";
+import { formatStoryForDownload } from "../../utils/story_manager.js";
 const { PDFDocument } = PDFLib;
 
 async function formatStoryToPdf(story)

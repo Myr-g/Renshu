@@ -1,6 +1,6 @@
 async function loadFilters()
 {
-    const res = await fetch("scripts/filters/filter_tags.json");
+    const res = await fetch("scripts/community/filters/filter_tags.json");
     return await res.json();
 }
 

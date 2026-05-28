@@ -1,4 +1,4 @@
-import { formatStoryForDownload } from "../story_manager.js";
+import { formatStoryForDownload } from "../../utils/story_manager.js";
 
 function formatStoryToTxt(story) 
 { 

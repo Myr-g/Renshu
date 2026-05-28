@@ -1,4 +1,4 @@
-import { getStory, saveStory as saveStorySM } from "./story_manager.js";
+import { getStory, saveStory as saveStorySM } from "../utils/story_manager.js";
 import { loadPromptGeneratorData, generatePrompt as generatePromptPG, generateChallengePrompt } from "./prompt_generator/prompt_generator.js";
 import { formatStoryToTxt } from "./download/txt_export.js";
 import { formatStoryToPdf } from "./download/pdf_export.js";
