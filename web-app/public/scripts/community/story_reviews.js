@@ -1,5 +1,9 @@
 import { loadFilters } from "./filters/filter_tags.js";
 
+const toggle = document.getElementById('filter_toggle');
+const panel = document.getElementById('filter_panel');
+const filter_tag = document.getElementById("filter_tag");
+
 generateReviewerId();
 
 function generateReviewerId()
@@ -46,10 +50,6 @@ async function loadFilterPanel()
         panel.appendChild(row);
     }
 }
-
-const toggle = document.getElementById('filter_toggle');
-const panel = document.getElementById('filter_panel');
-const filter_tag = document.getElementById("filter_tag");
 
 toggle.addEventListener('click', () => {
   panel.classList.toggle('expanded');

@@ -1,8 +1,9 @@
 const express = require("express");
-const { createSession, getSessions, getSessionById, addUserToSession, removeUserFromSession } = require("./sessions");
 const path = require("path");
-const { appendToJsonFile } = require("./utils/file_helper");
+const { createSession, getSessions, getSessionById, addUserToSession, removeUserFromSession } = require("./sessions");
+const { createWorkshopSubmission, getWorkshopSubmission, getWorkshopSubmissions, removeExpiredSubmissions, addReview } = require("./workshop");
 const { generatePromptSubmissionId } = require("./utils/ids");
+const { appendToJsonFile } = require("./utils/file_helper");
 
 const app = express();
 app.use(express.json());
@@ -232,6 +233,79 @@ app.post('/sessions/:id/write', (req, res) => {
     });
 });
 
+/*--- Community ----*/
+
+/* Story Reviews */
+removeExpiredSubmissions(); // Run once on startup
+setInterval(removeExpiredSubmissions, 60 * 60 * 1000); // Run every hour
+
+// Gets a list of all stories put up for review
+app.get('/community/story-reviews', (req, res) => {
+    res.status(200).json(getWorkshopSubmissions());
+});
+
+// Gets info about a specific story put up for review
+app.get('/community/story-reviews/:id', (req, res) => {
+    const {id} = req.params;
+    
+    const workshop_submission = getWorkshopSubmission(id);
+
+    if(!workshop_submission)
+    {
+        res.sendStatus(404);
+        return;
+    }
+
+    res.status(200).json(workshop_submission);
+});
+
+// Creates a new story to be put up for review
+app.post('/community/story-reviews/post', async(req, res) => {
+    const {reviewerId, title, content, authorsNote, tags} = req.body;
+
+    if(!reviewerId || !title.trim() || !content.trim() || !tags)
+    {
+        res.sendStatus(400);
+        return;
+    }
+
+    if(!tags.genre || !tags.contentWarning || !tags.storyType)
+    {
+        res.sendStatus(400);
+        return;
+    }
+
+    const workshop_submission = createWorkshopSubmission(reviewerId, title, content, authorsNote, tags);
+
+    res.status(201).json(workshop_submission);
+});
+
+// Adds a review comment to the current story being viewed
+app.post('/community/story-reviews/:id/review', (req, res) => {
+    const {id} = req.params;
+    const {reviewerId, review} = req.body;
+    
+    const workshop_submission = getWorkshopSubmission(id);
+
+    if(!workshop_submission)
+    {
+        res.sendStatus(404);
+        return;
+    }
+
+    if(!reviewerId || !review.trim())
+    {
+        res.sendStatus(400);
+        return;
+    }
+
+    const new_review = addReview(id, reviewerId, review.trim());
+
+    res.status(201).json(new_review);
+});
+
+
+/* Prompt Submissions */
 app.post('/community/simple-prompts', (req, res) => {
     const {submission} = req.body;
 

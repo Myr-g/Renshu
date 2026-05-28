@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community</title>
+    <title>Prompt Contributions</title>
     <link rel="stylesheet" href="css/community.css">
 </head>
 <body>
@@ -39,36 +39,63 @@
         </div>
     </div>
 
-    <main class="community">
-        <section class="community_header">
-            <h1>Community</h1>
-            <p>Share writing, receive feedback, and contribute ideas to the prompt system.</p>
+    <main class="prompt_submissions">
+        <section class="pc_header">
+            <h1>Prompt Submissions</h1>
+            <p>This is where you can submit new writing prompts or contribute building blocks for the prompt generator. Simple Prompts are quick ideas anyone can use right away, while Generator Contributions expand the variety, tone, and structure of the prompt generator itself.</p>
         </section>
 
-        <div class="community_cards">
-            <div id="story_reviews" class="community_card">
-                <h2>Story Reviews</h2>
-                <p class="description">Post writing anonymously and receive constructive feedback from other writers.</p>
-                <ul class="details">
-                    <li>• Anonymous</li>
-                    <li>• Temporary posts</li>
-                    <li>• Community-driven</li>
-                </ul>
-            </div>
+        <div id="simple_prompt" class="pc_card">
+            <h2>Simple Prompt</h2>
+            <p>Submit standalone prompts, challenge ideas, or short scenarios.</p>
 
-            <div id="prompt_submissions" class="community_card">
-                <h2>Prompt Submissions</h2>
-                <p class="description">Submit prompts, challenge ideas, or additions to the generator system.</p>
-                <ul class="details">
-                    <li>• Simple prompts</li>
-                    <li>• Generator contributions</li>
-                    <li>• Manually reviewed</li>
-                </ul>
+            <div id="simple_prompt_form" hidden>
+                <label>Submission</label>
+                <textarea id="simple_prompt_submission" maxlength="500" placeholder="Write a prompt, challenge idea, or scenario..."></textarea>
+
+                <div class="actions">
+                    <button id="simple_prompt_cancel">Cancel</button>
+                    <button id="simple_prompt_submit">Submit</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="generator_contribution" class="pc_card">
+            <h2>Generator Contribution</h2>
+            <p>Contribute templates, word banks, genre additions, or challenge rules.</p>
+
+            <div id="generator_contribution_form" hidden>
+                <label>Contribution Type</label>
+                <select id="contribution_type">
+                    <option value="template">Template</option>
+                    <option value="word_bank">Word Bank</option>
+                    <option value="genre_addition">Genre Addition</option>
+                    <option value="challenge_rule">Challenge Rule</option>
+                </select>
+
+                <div class="contribution_info">
+                    <label id="contribution_guidelines_toggle" class="contribution_info_toggle">Guidelines ▸</label>
+                    <p id="contribution_guidelines" class="contribuion_info" hidden></p>
+
+                    <label id="contribution_example_toggle" class="contribution_info_toggle">Example ▸</label>
+                    <p id="contribution_example" class="contribuion_info" hidden></p>
+                </div>
+
+                <label>Submission</label>
+                <textarea id="generator_contribution_submission" maxlength="1000" placeholder="Describe your contribution..."></textarea>
+
+                <label>Additional Notes</label>
+                <textarea id="contribution_notes" placeholder="Optional notes or explanation..."></textarea>
+
+                <div class="actions">
+                    <button id="generator_contribution_cancel">Cancel</button>
+                    <button id="generator_contribution_submit">Submit</button>
+                </div>
             </div>
         </div>
     </main>
 
     <script src="scripts/utils/ui.js"></script>
-    <script src="scripts/community/community.js"></script>
+    <script src="scripts/community/prompt_submissions.js"></script>
 </body>
 </html>

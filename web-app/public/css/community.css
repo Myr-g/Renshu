@@ -412,8 +412,8 @@ button:active {
   font-size: 0.85rem;
 }
 
-/*---- Prompt Contributions ----*/
-.prompt_contributions {
+/*---- Prompt Submissions ----*/
+.prompt_submissions {
   margin-left: 240px;
   min-height: 100vh;
 

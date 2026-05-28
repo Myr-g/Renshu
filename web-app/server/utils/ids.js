@@ -17,6 +17,11 @@ function generateSessionId()
     return "sess_" + generateId();
 }
 
+function generateWorkshopId()
+{
+    return "review_" + generateId();
+}
+
 function generatePromptSubmissionId(type)
 {
     if(type === "simple_prompt")
@@ -30,4 +35,4 @@ function generatePromptSubmissionId(type)
     }
 }
 
-module.exports = {generateUserId, generateSessionId, generatePromptSubmissionId};
+module.exports = {generateUserId, generateSessionId, generateStoryReviewId, generatePromptSubmissionId};
