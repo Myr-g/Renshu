@@ -35,4 +35,4 @@ function generatePromptSubmissionId(type)
     }
 }
 
-module.exports = {generateUserId, generateSessionId, generateStoryReviewId, generatePromptSubmissionId};
+module.exports = {generateUserId, generateSessionId, generateWorkshopId, generatePromptSubmissionId};

@@ -306,7 +306,7 @@ app.post('/community/story-reviews/:id/review', (req, res) => {
 
 
 /* Prompt Submissions */
-app.post('/community/simple-prompts', (req, res) => {
+app.post('/community/prompt-submissions/simple-prompt-submission', (req, res) => {
     const {submission} = req.body;
 
     if(!submission || submission.trim() === "")
@@ -331,7 +331,7 @@ app.post('/community/simple-prompts', (req, res) => {
     });
 });
 
-app.post('/community/generator-contributions', (req, res) => {
+app.post('/community/prompt-submissions/generator-contribution-submission', (req, res) => {
     const {contribution_type, submission, notes} = req.body;
 
     if(!contribution_type)

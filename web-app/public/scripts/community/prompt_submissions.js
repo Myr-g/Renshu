@@ -32,7 +32,7 @@ simple_prompt_cancel.addEventListener("click", (event) => {
 simple_prompt_submit.addEventListener("click", async() => {
     const submission = simple_prompt_submission.value.trim();
 
-    const res = await fetch("/community/simple-prompts", {
+    const res = await fetch("/community/prompt-submissions/simple-prompt-submission", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({submission})
@@ -159,7 +159,7 @@ generator_contribution_submit.addEventListener("click", async() => {
     const submission = generator_contribution_submission.value.trim();
     const notes = contribution_notes.value.trim();
 
-    const res = await fetch("/community/generator-contributions", {
+    const res = await fetch("/community/prompt-submissions/generator-contribution-submission", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({contribution_type, submission, notes})
