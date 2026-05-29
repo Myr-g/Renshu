@@ -1,6 +1,11 @@
+const path = require("path");
+const { loadMapFromJsonFile, saveMapToJsonFile } = require("./utils/file_helper")
 const { generateWorkshopId } = require("./utils/ids");
 
 const workshop_submissions = new Map(); // Key is the ID, Value is the review object
+
+const filePath = path.join(__dirname, "./data/story_reviews.json");
+loadMapFromJsonFile(filePath, workshop_submissions);
 
 function createWorkshopSubmission(reviewerId, title, content, authorsNote, tags)
 {
@@ -25,6 +30,8 @@ function createWorkshopSubmission(reviewerId, title, content, authorsNote, tags)
     };
 
     workshop_submissions.set(workshop_id, submission);
+
+    saveMapToJsonFile(filePath, workshop_submissions);
 
     return submission;
 }

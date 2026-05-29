@@ -269,7 +269,7 @@ app.post('/community/story-reviews/post', async(req, res) => {
         return;
     }
 
-    if(!tags.genre || !tags.contentWarning || !tags.storyType)
+    if(!tags.genre || (!tags.storyType || tags.storyType.length !== 1))
     {
         res.sendStatus(400);
         return;
@@ -306,6 +306,8 @@ app.post('/community/story-reviews/:id/review', (req, res) => {
 
 
 /* Prompt Submissions */
+
+// Submits a simple prompt to be reviewed
 app.post('/community/prompt-submissions/simple-prompt-submission', (req, res) => {
     const {submission} = req.body;
 
@@ -331,6 +333,7 @@ app.post('/community/prompt-submissions/simple-prompt-submission', (req, res) =>
     });
 });
 
+// Submits a generator contribution to be reviewed
 app.post('/community/prompt-submissions/generator-contribution-submission', (req, res) => {
     const {contribution_type, submission, notes} = req.body;
 

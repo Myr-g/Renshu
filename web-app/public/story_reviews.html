@@ -50,53 +50,37 @@
             <div id="post_story_card" class="post_story_card">
                 <h2>Share a Story</h2>
                 <p>Post writing anonymously for community feedback.</p>
+
+                <div id="post_story_form">
+                    <label>Title</label>
+                    <input type="text" id="post_story_title" maxlength="64"/>
+
+                    <label>Story</label>
+                    <textarea id="post_story_content" maxlength="1000" placeholder="Paste your story here..."></textarea>
+
+                    <Label>Tags</Label>
+                    <div id="post_story_tags" class="post_story_tags"></div>
+
+                    <label>Author's Note (Optional)</label>
+                    <textarea id="post_story_authors_note" placeholder="Mention anything you'd like reviewers to focus on..."></textarea>
+                    
+                    <div class="post_story_footer">
+                        <div class="post_story_notice">Stories are posted anonymously & automatically removed after 7 days</div>
+                        <div class="actions">
+                            <button id="post_story_cancel">Cancel</button>
+                            <button id="post_story_submit">Post Story</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="filters">
             <button id="filter_toggle" class="filter_toggle">Show Filters</button>
-
-            <div id="filter_panel" class="filter_panel">
-
-            </div>
+            <div id="filter_panel" class="filter_panel"></div>
         </div>
 
-        <div class="stories">
-            <div class="story_card">
-                <h2>Frankenstein</h2>
-                <div class="story_tags">
-                    <span class="story_tag">Gothic</span>
-                    <span class="story_tag">Body-Horror</span>
-                    <span class="story_tag">Chapter</span>
-                </div>
-                <p class="story_excerpt">I am by birth a Genevese, and my family is one of the most distinguished of that republic. My ancestors had been for many years counsellors and syndics, and my father had filled several public situations with honour and reputation.</p>
-                <p class="authors_note">ESL. Proper grammar check please.</p>
-                <p class="story_expiration">3 Days</p>
-            </div>
-
-            <div class="story_card">
-                <h2>Night on the Galatic Railroad</h2>
-                <div class="story_tags">
-                    <span class="story_tag">Fantasy</span>
-                    <span class="story_tag">Death</span>
-                    <span class="story_tag">Chapter</span>
-                </div>
-                <p class="story_excerpt">"Now then, class, even though it's called the Milky Way, do you know what this expanse is really made up of?" the teacher asked as he pointed to a large diagram of space—specifically to the whitish streak that ran across it—that had been draped over the blackboard.</p>
-                <p class="authors_note">Writing style consistency</p>
-                <p class="story_expiration">6 Days</p>
-            </div>
-
-            <div class="story_card">
-                <h2>The Blue Bird</h2>
-                <div class="story_tags">
-                    <span class="story_tag">Fantasy</span>
-                    <span class="story_tag">Violence</span>
-                    <span class="story_tag">Script</span>
-                </div>
-                <p class="story_excerpt">The stage represents the interior of a wood-cutter's cottage, simple and rustic in appearance, but in no way poverty-stricken. A recessed fireplace containing the dying embers of a wood-fire. Kitchen utensils, a cupboard, a bread-pan, a grandfather's clock, a spinning-wheel, a water-tap, etc. On a table, a lighted lamp. At the foot of the cupboard, on either side, a DOG and a CAT lie sleeping, rolled up, each with his nose in his tail. Between them stands a large blue-and-white sugar-loaf.</p>
-                <p class="story_expiration">1 Days</p>
-            </div>
-        </div>
+        <div id="stories" class="stories"></div>
     </main>
 
     <script src="scripts/utils/ui.js"></script>
