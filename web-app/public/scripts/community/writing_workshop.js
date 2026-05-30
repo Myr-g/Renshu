@@ -14,6 +14,9 @@ const filter_toggle = document.getElementById('filter_toggle');
 const filter_panel = document.getElementById('filter_panel');
 const filter_tag = document.getElementById("filter_tag");
 
+/*---- Variables ----*/
+let active_filters = [];
+
 /*---- Generate Reviewer ID ----*/
 generateReviewerId();
 
@@ -111,7 +114,7 @@ post_story_submit.addEventListener("click", async() => {
     const authorsNote = post_story_authors_note.value.trim();
     const tags = getSelectedPostTags();
 
-    const res = await fetch("/community/story-reviews/post", {
+    const res = await fetch("/community/writing-workshop/post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({reviewerId, title, content, authorsNote, tags})
@@ -158,7 +161,7 @@ filter_toggle.addEventListener('click', () => {
   filter_toggle.textContent = filter_panel.classList.contains('expanded') ? "Hide Filters" : "Show Filters";
 });
 
-document.addEventListener("click", event => {
+document.addEventListener("click", async(event) => {
     if(event.target.classList.contains("post_story_tag"))
     {
         const row = event.target.closest(".filter_row");
@@ -173,7 +176,9 @@ document.addEventListener("click", event => {
 
     else if(event.target.classList.contains("filter_tag"))
     {
-        event.target.classList.toggle("selected");
+        event.target.classList.toggle("active");
+        active_filters = [...document.querySelectorAll(".filter_tag.active")].map(tag => tag.textContent);
+        await loadStories();
     }
 });
 
@@ -184,7 +189,7 @@ async function loadStories()
 {
   try
   {
-    const res = await fetch('/community/story-reviews');
+    const res = await fetch('/community/writing-workshop/stories');
 
     if(!res.ok)
     {
@@ -203,54 +208,63 @@ async function loadStories()
     }
 
     data.forEach(story => {
-        const story_card = document.createElement("div");
-        story_card.classList.add("story_card");
-        story_card.dataset.id = story.id;
-
-        const h2 = document.createElement("h2");
-        h2.textContent = story.title;
-
-        const story_tags = document.createElement("div");
+        const story_tag_list = [];
 
         Object.values(story.tags).forEach(tagValue => {
             const tags = Array.isArray(tagValue) ? tagValue : [tagValue];
+            story_tag_list.push(...tags);
+        });
 
-            tags.forEach(tag => {
-                if(!tag || tag.trim() === "")
-                {
-                    return;
-                }
+        const matches = (active_filters.length === 0 || active_filters.some(tag => story_tag_list.includes(tag)));
 
+        if(matches)
+        {
+            const story_card = document.createElement("div");
+            story_card.classList.add("story_card");
+            story_card.dataset.id = story.id;
+
+            const h2 = document.createElement("h2");
+            h2.textContent = story.title;
+
+            const story_tags = document.createElement("div");
+
+            for(const tag of story_tag_list)
+            {
                 const story_tag = document.createElement("span");
                 story_tag.classList.add("story_tag");
                 story_tag.textContent = tag;
                 story_tags.appendChild(story_tag);
+            }
+
+            const story_excerpt = document.createElement("p");
+            story_excerpt.classList.add("story_excerpt");
+            story_excerpt.textContent = story.content;
+
+            const authors_note = document.createElement("p");
+            authors_note.classList.add("authors_note");
+            authors_note.textContent = story.authorsNote;
+
+            const expiresAt = document.createElement("p");
+            expiresAt.classList.add("story_expiration");
+            expiresAt.textContent = getExpiryText(story.expiresAt);
+
+            story_card.appendChild(h2);
+            story_card.appendChild(story_tags);
+            story_card.appendChild(story_excerpt);
+            story_card.appendChild(authors_note);
+            story_card.appendChild(expiresAt);
+            stories.appendChild(story_card);
+
+            story_card.addEventListener("click", () => {
+                localStorage.setItem("reviewId", story.id);
+                window.location.href = "/workshop_story.html";
             });
-        });
+        }
 
-        const story_excerpt = document.createElement("p");
-        story_excerpt.classList.add("story_excerpt");
-        story_excerpt.textContent = story.content;
-
-        const authors_note = document.createElement("p");
-        authors_note.classList.add("authors_note");
-        authors_note.textContent = story.authorsNote;
-
-        const expiresAt = document.createElement("p");
-        expiresAt.classList.add("story_expiration");
-        expiresAt.textContent = getExpiryText(story.expiresAt);
-
-        story_card.appendChild(h2);
-        story_card.appendChild(story_tags);
-        story_card.appendChild(story_excerpt);
-        story_card.appendChild(authors_note);
-        story_card.appendChild(expiresAt);
-        stories.appendChild(story_card);
-
-        story_card.addEventListener("click", () => {
-            localStorage.setItem("reviewId", story.id);
-            window.location.href = "/story_review.html";
-        });
+        else
+        {
+            
+        }
     });
   }
 

@@ -23,7 +23,7 @@
 
   --button-bg: #444;
   --button-border: #444;
-  --button-hover: #ccc;
+  --button-hover: #333;
 
   --sidebar-item-hover: rgba(0,0,0,0.05);
 }
@@ -96,7 +96,7 @@ button:active {
 }
 
 /*---- Story Review ----*/
-.story_review {
+.writing_workshop {
   margin-left: 240px;
   min-height: 100vh;
 
@@ -232,6 +232,19 @@ button:active {
   margin-bottom: 1rem;
 }
 
+.review_panel_header_top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.download_feedback {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+
 .review_panel h2 {
   margin-top: 0;
   margin-bottom: 0.35rem;
@@ -323,6 +336,10 @@ button:active {
 .review_actions {
   display: flex;
   justify-content: flex-end;
+}
+
+#review_submit {
+  padding: 0.375rem 0.8rem;
 }
 
 /*---- Sidebar ----*/

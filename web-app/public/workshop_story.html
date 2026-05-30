@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Story Reviews</title>
-    <link rel="stylesheet" href="css/community.css">
+    <title id="title"></title>
+    <link rel="stylesheet" href="css/workshop_story.css">
 </head>
 <body>
     <div id="sidebar">
@@ -39,51 +39,44 @@
         </div>
     </div>
 
-    <main class="story_reviews">
-        <section class="sr_header">
-            <h1>Story Reviews</h1>
-            <p>This is a space where you can share your writing and receive thoughtful, community‑driven feedback. Stories only stay up for a short time, and you can tag them with genre, content warnings, and story type to help readers understand what they’re stepping into. If there’s something specific you’d like feedback on, you can leave a note for reviewers to guide their focus.</p>
-            <p>This section relies on the community to keep things kind and constructive, so please be respectful when offering feedback and generous when receiving it.</p>
-        </section>
+    <main class="writing_workshop">
+        <div class="story_panel">
+            <button id="back_button" class="back_button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+	                <path d="M0 0h24v24H0z" fill="none" />
+	                <path fill="currentColor" d="M16.62 2.99a1.25 1.25 0 0 0-1.77 0L6.54 11.3a.996.996 0 0 0 0 1.41l8.31 8.31c.49.49 1.28.49 1.77 0s.49-1.28 0-1.77L9.38 12l7.25-7.25c.48-.48.48-1.28-.01-1.76" />
+                </svg>
+            </button>
 
-        <div class="post_story">
-            <div id="post_story_card" class="post_story_card">
-                <h2>Share a Story</h2>
-                <p>Post writing anonymously for community feedback.</p>
-
-                <div id="post_story_form">
-                    <label>Title</label>
-                    <input type="text" id="post_story_title" maxlength="64"/>
-
-                    <label>Story</label>
-                    <textarea id="post_story_content" maxlength="10000" placeholder="Paste your story here..."></textarea>
-
-                    <Label>Tags</Label>
-                    <div id="post_story_tags" class="post_story_tags"></div>
-
-                    <label>Author's Note (Optional)</label>
-                    <textarea id="post_story_authors_note" placeholder="Mention anything you'd like reviewers to focus on..."></textarea>
-                    
-                    <div class="post_story_footer">
-                        <div class="post_story_notice">Stories are posted anonymously & automatically removed after 7 days</div>
-                        <div class="actions">
-                            <button id="post_story_cancel">Cancel</button>
-                            <button id="post_story_submit">Post Story</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="story">
+                <h2 id="story_title" class="story_title"></h2>
+                <div id="story_tags" class="story_tags"></div>
+                <div id="authors_note" class="authors_note"></div>
+                <div id="story_content" class="story_content"></div>
             </div>
         </div>
 
-        <div class="filters">
-            <button id="filter_toggle" class="filter_toggle">Show Filters</button>
-            <div id="filter_panel" class="filter_panel"></div>
-        </div>
+        <div class="review_panel">
+            <div class="review_panel_header">
+                <div class="review_panel_header_top">
+                    <h2>Feedback</h2>
+                    <button id="download_feedback" class="download_feedback" hidden>Download All</button>
+                </div>
+                
+                <p class="review_notice">Keep feedback constructive & respectful.</p>
+            </div>
 
-        <div id="stories" class="stories"></div>
+            <div id="review_comments" class="review_comments"></div>
+                <div id="review_form" class="review_form">
+                    <textarea id="review_input" maxlength="2000" placeholder="Enter your feedback here..."></textarea>
+                    <div class="review_actions">
+                        <button id="review_submit">Post</button>
+                    </div>
+            </div>
+        </div>
     </main>
 
     <script src="scripts/utils/ui.js"></script>
-    <script type="module" src="scripts/community/story_reviews.js"></script>
+    <script type="module" src="scripts/community/workshop_story.js"></script>
 </body>
 </html>

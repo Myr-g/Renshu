@@ -23,7 +23,7 @@
 
   --button-bg: #444;
   --button-border: #444;
-  --button-hover: #ccc;
+  --button-hover: #333;
 
   --sidebar-item-hover: rgba(0,0,0,0.05);
 }
@@ -181,7 +181,7 @@ button:active {
 /*---- Story Reviews ----*/
 
 /* Story Reviews Page */
-.story_reviews {
+.writing_workshop {
   margin-left: 240px;
   min-height: 100vh;
 
@@ -396,7 +396,7 @@ button:active {
   border-color: var(--text-muted);
 }
 
-.filter_tag.selected, .post_story_tag.selected {
+.filter_tag.active, .post_story_tag.selected {
   background: var(--text-main);
   color: var(--bg-paper);
   border-color: var(--text-main);
@@ -426,6 +426,8 @@ button:active {
 
 .story_card:hover {
   transform: translateY(-2px);
+  border-color: var(--text-muted);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
   cursor: pointer;
 }
 

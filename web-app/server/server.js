@@ -235,17 +235,17 @@ app.post('/sessions/:id/write', (req, res) => {
 
 /*--- Community ----*/
 
-/* Story Reviews */
+/* Writing Workshop */
 removeExpiredSubmissions(); // Run once on startup
 setInterval(removeExpiredSubmissions, 60 * 60 * 1000); // Run every hour
 
 // Gets a list of all stories put up for review
-app.get('/community/story-reviews', (req, res) => {
+app.get('/community/writing-workshop/stories', (req, res) => {
     res.status(200).json(getWorkshopSubmissions());
 });
 
 // Gets info about a specific story put up for review
-app.get('/community/story-reviews/:id', (req, res) => {
+app.get('/community/writing-workshop/:id', (req, res) => {
     const {id} = req.params;
     
     const workshop_submission = getWorkshopSubmission(id);
@@ -260,7 +260,7 @@ app.get('/community/story-reviews/:id', (req, res) => {
 });
 
 // Creates a new story to be put up for review
-app.post('/community/story-reviews/post', async(req, res) => {
+app.post('/community/writing-workshop/post', async(req, res) => {
     const {reviewerId, title, content, authorsNote, tags} = req.body;
 
     if(!reviewerId || !title.trim() || !content.trim() || !tags)
@@ -281,7 +281,7 @@ app.post('/community/story-reviews/post', async(req, res) => {
 });
 
 // Adds a review comment to the current story being viewed
-app.post('/community/story-reviews/:id/review', (req, res) => {
+app.post('/community/writing-workshop/:id/review', (req, res) => {
     const {id} = req.params;
     const {reviewerId, text} = req.body;
     

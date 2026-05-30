@@ -1,4 +1,5 @@
 /*----DOM Elements ----*/
+const title = document.getElementById("title");
 const back_button = document.getElementById("back_button");
 
 const story_title = document.getElementById("story_title");
@@ -6,6 +7,7 @@ const story_tags = document.getElementById("story_tags");
 const authors_note = document.getElementById("authors_note");
 const story_content = document.getElementById("story_content");
 
+const download_feedback = document.getElementById("download_feedback");
 const review_comments = document.getElementById("review_comments");
 const review_form = document.getElementById("review_form");
 const review_input = document.getElementById("review_input");
@@ -15,12 +17,12 @@ async function getStoryReviewData()
 {
     const reviewId = localStorage.getItem("reviewId");
 
-    const res = await fetch(`/community/story-reviews/${reviewId}`);
+    const res = await fetch(`/community/writing-workshop/${reviewId}`);
 
     if(!res.ok)
     {
         localStorage.removeItem("reviewId");
-        window.location.href = "/";
+        window.location.href = "/writing_workshop.html";
         return;
     }
 
@@ -30,7 +32,7 @@ async function getStoryReviewData()
 
 back_button.addEventListener("click", () => {
     localStorage.removeItem("reviewId");
-    window.location.href = "/story_reviews.html";
+    window.location.href = "/writing_workshop.html";
 });
 
 function anonymizeReviewer(reviewerId)
@@ -65,12 +67,59 @@ async function loadReviewComments(data)
     }
 }
 
+function downloadAllFeedback(data) 
+{
+    const { title, authorsNote, tags, createdAt, reviews } = data;
+
+    // Header
+    let output = `Story Feedback — ${title}\n`;
+    output += `Posted: ${new Date(createdAt).toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "numeric", minute: "2-digit", hour12: true }).replace(",", " ·")}\n\n`;
+    output += `Tags:\n`;
+    output += `- Genre: ${tags.genre.join(", ")}\n`;
+    output += `- Content Warning: ${tags.contentWarning.join(", ")}\n`;
+    output += `- Story Type: ${tags.storyType}\n\n`;
+    output += `Author’s Note:\n`;
+    output += `${authorsNote || "None provided."}\n\n`;
+    output += `----------------------------------------\n\n`;
+
+    // Reviews
+    if (reviews.length === 0) 
+    {
+        output += "No feedback yet.\n\n";
+    } 
+    
+    else 
+    {
+        reviews.forEach(r => {
+            output += `${anonymizeReviewer(r.reviewerId)} — ${new Date(r.createdAt).toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "numeric", minute: "2-digit", hour12: true }).replace(",", " ·")}\n`;
+            output += `${r.text}\n\n`;
+        });
+    }
+
+    // Footer
+    output += `----------------------------------------\n\n`;
+    output += `End of feedback`;
+
+    // Create file
+    const blob = new Blob([output], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    // Trigger download
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${title.replace(/\s+/g, "_")}_Feedback.txt`;
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+
 review_submit.addEventListener("click", async() => {
     const reviewId = localStorage.getItem("reviewId");
     const reviewerId = localStorage.getItem("reviewerId");
     const text = review_input.value.trim();
 
-    const res = await fetch(`/community/story-reviews/${reviewId}/review`, {
+    const res = await fetch(`/community/writing-workshop/${reviewId}/review`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({reviewerId, text})
@@ -96,6 +145,7 @@ review_submit.addEventListener("click", async() => {
 window.addEventListener("DOMContentLoaded", async() => {
     const data = await getStoryReviewData();
 
+    title.textContent = "Writing Workshop - " + data.title;
     story_title.textContent = data.title;
 
     Object.values(data.tags).forEach(tagValue => {
@@ -124,6 +174,13 @@ window.addEventListener("DOMContentLoaded", async() => {
     story_content.textContent = data.content;
     story_content.innerHTML = story_content.textContent.replace(/\n/g, "<br>");
 
-    loadReviewComments(data);
+    const reviewerId = localStorage.getItem("reviewerId");
 
+    if(data.reviewerId === reviewerId)
+    {
+        download_feedback.hidden = false;
+        download_feedback.addEventListener("click", () => downloadAllFeedback(data));
+    }
+
+    loadReviewComments(data);
 });
