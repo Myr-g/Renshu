@@ -179,6 +179,8 @@ button:active {
 }
 
 /*---- Story Reviews ----*/
+
+/* Story Reviews Page */
 .story_reviews {
   margin-left: 240px;
   min-height: 100vh;
@@ -404,7 +406,7 @@ button:active {
 .stories {
   column-count: 2;
   column-gap: 1.5rem;
-  margin-top: 2rem;
+  /*margin-top: 2rem;*/
 }
 
 .story_card {
@@ -458,7 +460,6 @@ button:active {
 
   white-space: nowrap;
 }
-
 
 .story_excerpt {
   margin-bottom: 1rem;

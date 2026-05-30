@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Story Reviews</title>
-    <link rel="stylesheet" href="css/community.css">
+    <link rel="stylesheet" href="css/story_review.css">
 </head>
 <body>
     <div id="sidebar">
@@ -41,30 +41,38 @@
 
     <main class="story_review">
         <div class="story_panel">
-            <button class="back_button">Back</button>
+            <button id="back_button" class="back_button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+	                <path d="M0 0h24v24H0z" fill="none" />
+	                <path fill="currentColor" d="M16.62 2.99a1.25 1.25 0 0 0-1.77 0L6.54 11.3a.996.996 0 0 0 0 1.41l8.31 8.31c.49.49 1.28.49 1.77 0s.49-1.28 0-1.77L9.38 12l7.25-7.25c.48-.48.48-1.28-.01-1.76" />
+                </svg>
+            </button>
 
-            <div class="story_focus">
-                <h2 class="story_title"></h2>
-
-                <div class="story_metadata">
-                    <div class="story_tags"></div>
-                    <p class="story_expiration"></p>
-                </div>
-
-                <div class="authors_note"></div>
-                <div class="story_content"></div>
+            <div class="story">
+                <h2 id="story_title" class="story_title"></h2>
+                <div id="story_tags" class="story_tags"></div>
+                <div id="authors_note" class="authors_note"></div>
+                <div id="story_content" class="story_content"></div>
             </div>
         </div>
 
         <div class="review_panel">
-            <h2>Feedback</h2>
-            <p class="review_notice">Keep feedback constructive & respectful.</p>
-            <div class="review_comments"></div>
-            <div class="review_form"></div>
+            <div class="review_panel_header">
+                <h2>Feedback</h2>
+                <p class="review_notice">Keep feedback constructive & respectful.</p>
+            </div>
+
+            <div id="review_comments" class="review_comments"></div>
+                <div id="review_form" class="review_form">
+                    <textarea id="review_input" maxlength="2000" placeholder="Enter your feedback here..."></textarea>
+                    <div class="review_actions">
+                        <button id="review_submit">Post</button>
+                    </div>
+            </div>
         </div>
     </main>
 
     <script src="scripts/utils/ui.js"></script>
-    <script type="module" src="scripts/community/story_reviews.js"></script>
+    <script type="module" src="scripts/community/story_review.js"></script>
 </body>
 </html>

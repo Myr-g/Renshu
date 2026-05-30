@@ -283,7 +283,7 @@ app.post('/community/story-reviews/post', async(req, res) => {
 // Adds a review comment to the current story being viewed
 app.post('/community/story-reviews/:id/review', (req, res) => {
     const {id} = req.params;
-    const {reviewerId, review} = req.body;
+    const {reviewerId, text} = req.body;
     
     const workshop_submission = getWorkshopSubmission(id);
 
@@ -293,13 +293,13 @@ app.post('/community/story-reviews/:id/review', (req, res) => {
         return;
     }
 
-    if(!reviewerId || !review.trim())
+    if(!reviewerId || !text.trim())
     {
         res.sendStatus(400);
         return;
     }
 
-    const new_review = addReview(id, reviewerId, review.trim());
+    const new_review = addReview(id, reviewerId, text.trim());
 
     res.status(201).json(new_review);
 });

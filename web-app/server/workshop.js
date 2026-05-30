@@ -30,7 +30,6 @@ function createWorkshopSubmission(reviewerId, title, content, authorsNote, tags)
     };
 
     workshop_submissions.set(workshop_id, submission);
-
     saveMapToJsonFile(filePath, workshop_submissions);
 
     return submission;
@@ -67,7 +66,7 @@ function removeExpiredSubmissions()
     }
 }
 
-function addReview(workshopId, reviewerId, review)
+function addReview(workshopId, reviewerId, text)
 {
     const submission = getWorkshopSubmission(workshopId);
 
@@ -78,11 +77,13 @@ function addReview(workshopId, reviewerId, review)
     
     const new_review = {
         reviewerId: reviewerId,
-        review: review,
+        text: text,
         createdAt: new Date().toISOString()
     };
 
     submission.reviews.push(new_review);
+    saveMapToJsonFile(filePath, workshop_submissions);
+
     return new_review;
 }
 

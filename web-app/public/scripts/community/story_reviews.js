@@ -246,7 +246,12 @@ async function loadStories()
         story_card.appendChild(authors_note);
         story_card.appendChild(expiresAt);
         stories.appendChild(story_card);
-    })
+
+        story_card.addEventListener("click", () => {
+            localStorage.setItem("reviewId", story.id);
+            window.location.href = "/story_review.html";
+        });
+    });
   }
 
   catch(err)
@@ -277,5 +282,3 @@ function getExpiryText(expiresAt)
 
     return `Expires in ${diffDays} day${diffDays === 1 ? "" : "s"}`;
 }
-
-
