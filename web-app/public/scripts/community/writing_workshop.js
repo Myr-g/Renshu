@@ -256,7 +256,7 @@ async function loadStories()
             stories.appendChild(story_card);
 
             story_card.addEventListener("click", () => {
-                localStorage.setItem("reviewId", story.id);
+                localStorage.setItem("workshopId", story.id);
                 window.location.href = "/workshop_story.html";
             });
         }

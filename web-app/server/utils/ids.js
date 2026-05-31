@@ -19,7 +19,7 @@ function generateSessionId()
 
 function generateWorkshopId()
 {
-    return "review_" + generateId();
+    return "workshop_" + generateId();
 }
 
 function generatePromptSubmissionId(type)

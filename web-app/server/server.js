@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const { createSession, getSessions, getSessionById, addUserToSession, removeUserFromSession } = require("./sessions");
-const { createWorkshopSubmission, getWorkshopSubmission, getWorkshopSubmissions, removeExpiredSubmissions, addReview } = require("./workshop");
+const { createWorkshopSubmission, getWorkshopSubmission, getWorkshopSubmissions, getWorkshopRateLimits, removeExpiredSubmissions, addReview, getReviewRateLimits } = require("./workshop");
 const { generatePromptSubmissionId } = require("./utils/ids");
 const { appendToJsonFile } = require("./utils/file_helper");
 
@@ -269,11 +269,31 @@ app.post('/community/writing-workshop/post', async(req, res) => {
         return;
     }
 
+    if(content.trim().length < 150) 
+    {
+        return res.status(400).json({ message: "Stories must be at least 150 characters long." });
+    }
+
     if(!tags.genre || (!tags.storyType || tags.storyType.length !== 1))
     {
         res.sendStatus(400);
         return;
     }
+
+    const workshop_rate_limits = getWorkshopRateLimits();
+    const now = Date.now();
+    const THIRTY_MINS = 30 * 60 * 1000;
+    const last_post_time = workshop_rate_limits.get(reviewerId);
+
+    if(last_post_time && (now - last_post_time < THIRTY_MINS))
+    {
+        const remaining_time = THIRTY_MINS - (now - last_post_time);
+        const minutes = Math.ceil(remaining_time / 60000);
+        const message = `You can only post one story every 30 minutes. You can post again in ${minutes} minute(s).`;
+        return res.status(429).json({ message: message });
+    }
+
+    workshop_rate_limits.set(reviewerId, now);
 
     const workshop_submission = createWorkshopSubmission(reviewerId, title, content, authorsNote, tags);
 
@@ -298,6 +318,26 @@ app.post('/community/writing-workshop/:id/review', (req, res) => {
         res.sendStatus(400);
         return;
     }
+
+    if(text.trim().length < 20) 
+    {
+        return res.status(400).json({ message: "Comments must be at least 20 characters long." });
+    }
+
+    const review_rate_limits = getReviewRateLimits();
+    const now = Date.now();
+    const THIRTY_SECS = 30 * 1000;
+    const last_post_time = review_rate_limits.get(reviewerId);
+
+    if(last_post_time && (now - last_post_time < THIRTY_SECS))
+    {
+        const remaining_time = THIRTY_SECS - (now - last_post_time);
+        const seconds = Math.ceil(remaining_time / 1000);
+        const message = `You can only post one comment every 30 seconds. You can post again in ${seconds} second(s).`;
+        return res.status(429).json({ message: message });
+    }
+
+    review_rate_limits.set(reviewerId, now);
 
     const new_review = addReview(id, reviewerId, text.trim());
 

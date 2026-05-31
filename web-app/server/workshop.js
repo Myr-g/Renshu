@@ -3,6 +3,8 @@ const { loadMapFromJsonFile, saveMapToJsonFile } = require("./utils/file_helper"
 const { generateWorkshopId } = require("./utils/ids");
 
 const workshop_submissions = new Map(); // Key is the ID, Value is the review object
+const workshop_rate_limits = new Map();
+const review_rate_limits = new Map();
 
 const filePath = path.join(__dirname, "./data/story_reviews.json");
 loadMapFromJsonFile(filePath, workshop_submissions);
@@ -53,6 +55,11 @@ function getWorkshopSubmissions()
     return Array.from(workshop_submissions.values());
 }
 
+function getWorkshopRateLimits()
+{
+    return workshop_rate_limits;
+}
+
 function removeExpiredSubmissions() 
 {
     const now = Date.now();
@@ -87,5 +94,10 @@ function addReview(workshopId, reviewerId, text)
     return new_review;
 }
 
+function getReviewRateLimits()
+{
+    return review_rate_limits;
+}
 
-module.exports = { createWorkshopSubmission, getWorkshopSubmission, getWorkshopSubmissions, removeExpiredSubmissions, addReview };
+
+module.exports = { createWorkshopSubmission, getWorkshopSubmission, getWorkshopSubmissions, getWorkshopRateLimits, removeExpiredSubmissions, addReview, getReviewRateLimits };

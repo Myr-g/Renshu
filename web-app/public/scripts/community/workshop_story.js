@@ -13,6 +13,8 @@ const review_form = document.getElementById("review_form");
 const review_input = document.getElementById("review_input");
 const review_submit = document.getElementById("review_submit");
 
+const blocked_reviewers = JSON.parse(localStorage.getItem("blockedReviewers")) || [];
+
 async function getStoryReviewData()
 {
     const reviewId = localStorage.getItem("reviewId");
@@ -41,16 +43,69 @@ function anonymizeReviewer(reviewerId)
   return `Reviewer#${id.slice(0, 4)}`;
 }
 
+function removeContextMenu()
+{
+    const existing = document.querySelector(".review_context_menu");
+
+    if(existing)
+    {
+        existing.remove();
+    }
+}
+
+function blockReviewer(reviewerId)
+{
+    if(!blocked_reviewers.includes(reviewerId))
+    {
+        blocked_reviewers.push(reviewerId);
+        localStorage.setItem("blockedReviewers",JSON.stringify(blocked_reviewers));
+    }
+}
+
 async function loadReviewComments(data)
 {
+    review_comments.innerHTML = "";
+
     for(const item of data.reviews)
     {
+        if(blocked_reviewers.includes(item.reviewerId))
+        {
+            return;
+        }
+
         const review = document.createElement("div");
         review.classList.add("review_comment");
 
         const reviewer = document.createElement("p");
         reviewer.classList.add("review_name")
         reviewer.textContent = anonymizeReviewer(item.reviewerId);
+
+        reviewer.addEventListener("click", (event) => {
+            removeContextMenu();
+
+            const review_context_menu = document.createElement("div");
+            review_context_menu.classList.add("review_context_menu");
+
+            const reviewer_label = document.createElement("p");
+            reviewer_label.textContent = anonymizeReviewer(item.reviewerId);
+
+            const block_button = document.createElement("button");
+            block_button.textContent = "Hide feedback from this reviewer";
+
+            block_button.addEventListener("click", () => {
+                blockReviewer(item.reviewerId);
+                review.remove();
+                removeContextMenu();
+            });
+
+            review_context_menu.appendChild(reviewer_label);
+            review_context_menu.appendChild(block_button);
+
+            document.body.appendChild(review_context_menu);
+
+            review_context_menu.style.left = `${event.pageX}px`;
+            review_context_menu.style.top = `${event.pageY}px`;
+        });
 
         const review_text = document.createElement("p");
         review_text.classList.add("review_text");
@@ -91,8 +146,11 @@ function downloadAllFeedback(data)
     else 
     {
         reviews.forEach(r => {
-            output += `${anonymizeReviewer(r.reviewerId)} — ${new Date(r.createdAt).toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "numeric", minute: "2-digit", hour12: true }).replace(",", " ·")}\n`;
-            output += `${r.text}\n\n`;
+            if(!blocked_reviewers.includes(r.reviewerId))
+            {
+                output += `${anonymizeReviewer(r.reviewerId)} — ${new Date(r.createdAt).toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "numeric", minute: "2-digit", hour12: true }).replace(",", " ·")}\n`;
+                output += `${r.text}\n\n`;
+            }
         });
     }
 
@@ -112,6 +170,13 @@ function downloadAllFeedback(data)
 
     URL.revokeObjectURL(url);
 }
+
+document.addEventListener("click", (event) => {
+    if(!event.target.closest(".review_context_menu") && !event.target.classList.contains("review_name"))
+    {
+        removeContextMenu();
+    }
+});
 
 
 review_submit.addEventListener("click", async() => {
