@@ -17,13 +17,13 @@ const blocked_reviewers = JSON.parse(localStorage.getItem("blockedReviewers")) |
 
 async function getStoryReviewData()
 {
-    const reviewId = localStorage.getItem("reviewId");
+    const workshop_id = localStorage.getItem("workshopId");
 
-    const res = await fetch(`/community/writing-workshop/${reviewId}`);
+    const res = await fetch(`/community/writing-workshop/${workshop_id}`);
 
     if(!res.ok)
     {
-        localStorage.removeItem("reviewId");
+        localStorage.removeItem("workshopId");
         window.location.href = "/writing_workshop.html";
         return;
     }
@@ -33,7 +33,7 @@ async function getStoryReviewData()
 }
 
 back_button.addEventListener("click", () => {
-    localStorage.removeItem("reviewId");
+    localStorage.removeItem("workshopId");
     window.location.href = "/writing_workshop.html";
 });
 
@@ -180,11 +180,11 @@ document.addEventListener("click", (event) => {
 
 
 review_submit.addEventListener("click", async() => {
-    const reviewId = localStorage.getItem("reviewId");
+    const workshopId = localStorage.getItem("workshopId");
     const reviewerId = localStorage.getItem("reviewerId");
     const text = review_input.value.trim();
 
-    const res = await fetch(`/community/writing-workshop/${reviewId}/review`, {
+    const res = await fetch(`/community/writing-workshop/${workshopId}/review`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({reviewerId, text})
