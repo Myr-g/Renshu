@@ -37,26 +37,29 @@ function getStory(id)
     return null;
 }
 
-function createStory(data)
+function createStory(writerId)
 {
     const stories = loadStories();
 
-    const new_story = {
-        id: "stry_" + crypto.randomUUID(),
-        title: data.title,
-        genre: data.genre,
-        promptType: data.promptType,
-        prompt: data.prompt,
+    const story = {
+        id: "story_" + crypto.randomUUID(),
+        ownerId: writerId,
+        type: "solo",
+        title: "Untitled",
+        genre: "",
+        promptType: "none",
+        prompt: "",
         promptLocked: false,
         content: "",
+        collaborators: [],
         createdAt: new Date().toISOString(),
         updatedAt: null
     };
 
-    stories.push(new_story);
+    stories.push(story);
     saveStories(stories);
 
-    return new_story;
+    return story;
 }
 
 function saveStory(story)

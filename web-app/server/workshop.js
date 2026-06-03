@@ -71,6 +71,8 @@ function removeExpiredSubmissions()
             workshop_submissions.delete(id);
         }
     }
+
+    saveMapToJsonFile(filePath, workshop_submissions);
 }
 
 function addReview(workshopId, reviewerId, text)

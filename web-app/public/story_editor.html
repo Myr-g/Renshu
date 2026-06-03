@@ -39,11 +39,54 @@
         </div>
     </div>
 
-    <section>
-        <h2 id="story_title" contenteditable="true"></h2>
+    <main class="writing_workspace">
+        <div class="workspace_header">
+            <button id="back_button" class="back_button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+	                <path fill="currentColor" d="M16.62 2.99a1.25 1.25 0 0 0-1.77 0L6.54 11.3a.996.996 0 0 0 0 1.41l8.31 8.31c.49.49 1.28.49 1.77 0s.49-1.28 0-1.77L9.38 12l7.25-7.25c.48-.48.48-1.28-.01-1.76" />
+                </svg>
+            </button>
 
-        <div class="prompt-row">
-            <h3 id="story_prompt"></h3>
+            <h2 id="story_title" class="story_title" contenteditable="true"></h2>
+
+            <button id="settings_toggle" class="settings_toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+	                <path d="M0 0h24v24H0z" fill="none" />
+	                <path fill="currentColor" d="m19.44 12.99l-.01.02c.04-.33.08-.67.08-1.01s-.03-.66-.07-.99l.01.02l2.44-1.92l-2.43-4.22l-2.87 1.16l.01.01c-.52-.4-1.09-.74-1.71-1h.01L14.44 2H9.57l-.44 3.07h.01c-.62.26-1.19.6-1.71 1l.01-.01l-2.88-1.17l-2.44 4.22l2.44 1.92l.01-.02c-.04.33-.07.65-.07.99s.03.68.08 1.01l-.01-.02l-2.1 1.65l-.33.26l2.43 4.2l2.88-1.15l-.02-.04c.53.41 1.1.75 1.73 1.01h-.03L9.58 22h4.85s.03-.18.06-.42l.38-2.65h-.01c.62-.26 1.2-.6 1.73-1.01l-.02.04l2.88 1.15l2.43-4.2s-.14-.12-.33-.26zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5s-1.57 3.5-3.5 3.5" />
+                </svg>
+            </button>
+
+            <div id="story_settings" class="story_settings">
+                <div class="story_settings_item">
+                    <label>Genre</label>
+                    <select id="genre" class="genre">
+                        <option value="">None</option>
+                    </select>
+                </div>
+
+                <div class="story_settings_item">
+                    <label>Mode</label>
+                    <div id="story_type_toggle" class="story_type_toggle">
+                        <button id="solo_toggle" class="story_type active">Solo</button>
+                        <button id="collaborative_toggle"class="story_type">Collaborative</button>
+                    </div>
+                </div>
+
+                <div class="story_settings_item">
+                    <label>Prompt</label>
+                    <div class="prompt_type_toggle">
+                        <button class="prompt_type active" data-type="none">None</button>
+                        <button class="prompt_type" data-type="template">Template</button>
+                        <button class="prompt_type" data-type="challenge">Challenge</button>
+                        <button class="prompt_type" data-type="community">Community</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="story_prompt" class="workspace_prompt" hidden>
+            <h3 id="prompt_text"></h3>
             <button id="regenerate_prompt" type="button" title="Prompt is locked once you begin writing.">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
 	                <path d="M0 0h24v24H0z" fill="none" />
@@ -56,40 +99,43 @@
             </button>
         </div>
 
-        <textarea id="story_editor" placeholder="You may begin writing..."></textarea>
+        <div class="workspace_editor">
+            <textarea id="story_content" class="story_content" placeholder="You may begin writing..."></textarea>
+        </div>
 
-        <div class="actions">
-            <button id="exit_session">Exit</button>
-            <button id="save_story">Save</button>
-            <div id="save_status">
-                <span id="save_icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="9"/>
-                        <path d="M8 12.5l2.5 2.5L16 9.5"/>
-                    </svg>
-                </span>
-                <span id="save_text"></span>
-            </div>
+        <div class="workspace_footer">
+            <div class="actions">
+                <button id="save_story">Save</button>
+                <div id="save_status">
+                    <span id="save_icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"/>
+                            <path d="M8 12.5l2.5 2.5L16 9.5"/>
+                        </svg>
+                    </span>
+                    <span id="save_text"></span>
+                </div>
             
-            <div class="download">
-                <button id="download_story">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-                </button>
+                <div class="download">
+                    <button id="download_story">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                    </button>
 
-                <div id="download_menu">
-                    <button id="txt_download">TXT</button>
-                    <button id="pdf_download">PDF</button>
+                    <div id="download_menu">
+                        <button id="txt_download">TXT</button>
+                        <button id="pdf_download">PDF</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
     <script src="scripts/utils/ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
-    <script type="module" src="scripts/story_editor/session.js"></script>
+    <script type="module" src="scripts/story_editor/story_editor.js"></script>
 </body>
 </html>
