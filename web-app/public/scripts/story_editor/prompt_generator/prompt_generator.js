@@ -67,10 +67,10 @@ async function loadPromptGeneratorData()
     }
 
     const [templates, generalWordBanks, genreSpecificWordBanks, challengeRules] = await Promise.all([
-      fetch('scripts/story_editor/prompt_generator/templates.json').then(res => res.json()),
-      fetch('scripts/story_editor/prompt_generator/general_word_banks.json').then(res => res.json()),
-      fetch('scripts/story_editor/prompt_generator/genre_word_banks.json').then(res => res.json()),
-      fetch('scripts/story_editor/prompt_generator/challenge_rules.json').then(res => res.json())
+      fetch('/scripts/story_editor/prompt_generator/templates.json').then(res => res.json()),
+      fetch('/scripts/story_editor/prompt_generator/general_word_banks.json').then(res => res.json()),
+      fetch('/scripts/story_editor/prompt_generator/genre_word_banks.json').then(res => res.json()),
+      fetch('/scripts/story_editor/prompt_generator/challenge_rules.json').then(res => res.json())
     ]);
 
     data.templates = templates;

@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const { createSession, getSessions, getSessionById, addUserToSession, removeUserFromSession } = require("./sessions");
+const { createStory, getStory, updateStory } = require("./collaborative_stories");
 const { createWorkshopSubmission, getWorkshopSubmission, getWorkshopSubmissions, getWorkshopRateLimits, removeExpiredSubmissions, addReview, getReviewRateLimits } = require("./workshop");
 const { generatePromptSubmissionId } = require("./utils/ids");
 const { appendToJsonFile } = require("./utils/file_helper");
@@ -13,227 +14,73 @@ app.get("/", (req, res) => {
     res.send("Collaborative Story Server API is running");
 });
 
-// Gets a list of sessions with simplified information about each
-app.get('/sessions', (req, res) => {
-    const sessions_list = getSessions();
-    let summarized_sessions = [];
+/*---- Collaborative Stories ----*/
 
-    for(let i = 0; i < sessions_list.length; i++)
+// Creates a new collaborative story
+app.post('/collaborative-stories/create', (req, res) => {
+    const {story} = req.body;
+
+    if(!story)
     {
-        summarized_sessions[i] = {
-            id: sessions_list[i].id,
-            title: sessions_list[i].title,
-            genre: sessions_list[i].genre,
-            prompt: sessions_list[i].prompt,
-            users: sessions_list[i].users.size,
-            createdAt: sessions_list[i].createdAt
-        }
+        res.sendStatus(400);
+        return;
     }
 
-    res.status(200).json({sessions: summarized_sessions});
+    const collaborative_story = createStory(story);
+    const join_url = `${req.protocol}://${req.get('host')}/collaborative/${collaborative_story.id}`;
+
+    res.status(201).json({collaborative_story, join_url});
 });
 
-// Gets info about a specifc session
-app.get('/sessions/:id', (req, res) => {
+// Gets info about a specific collaborative story
+app.get('/collaborative-stories/:id', (req, res) => {
     const {id} = req.params;
-    const {userId} = req.query;
 
-    const session = getSessionById(id);
+    const collaborative_story = getStory(id);
 
-    if(!session)
+    if(!collaborative_story)
     {
         res.sendStatus(404);
         return;
     }
 
-    if(!userId)
-    {
-        res.sendStatus(400);
-        return;
-    }
-
-    if(!session.users.has(userId))
-    {
-        res.sendStatus(403);
-        return;
-    }
-
-    const response = {
-        sessionId: session.id,
-        title: session.title,
-        genre: session.genre,
-        promptType: session.promptType,
-        prompt: session.prompt,
-        promptLocked: session.promptLocked,
-        content: session.content,
-        userCount: session.users.size,
-        createdAt: session.createdAt,
-        updatedAt: session.updatedAt
-    };
-
-    res.status(200).json(response);
+    res.status(200).json(collaborative_story);
 });
 
-// Creates a new session
-app.post('/sessions', async(req, res) => {
-    console.log(req.body);
-
-    const {title, genre, promptType} = req.body;
-    let chosen_genre = null;
-
-    if(!title || !genre)
-    {
-        res.sendStatus(400);
-        return;
-    }
-
-    const session = createSession(title, genre, promptType);
-
-    if(!session)
-    {
-        // Duplicate Session Name
-        res.sendStatus(409);
-        return;
-    }
-
-    res.status(201).json({
-        id: session.id,
-        title: session.title,
-        genre: session.genre,
-        createdAt: session.createdAt
-    });
-});
-
-// Lets a user join an existing session
-app.post('/sessions/:id/join', (req, res) => {
+// Updates the collaborative story with the given id
+app.put('/collaborative-stories/:id/update', (req, res) => {
     const {id} = req.params;
-    const {username} = req.body;
+    const {story} = req.body;
 
-    if(!getSessionById(id))
-    {
-        res.sendStatus(404);
-        return;
-    }
-
-    if(!username)
+    if(!story)
     {
         res.sendStatus(400);
         return;
     }
 
-    const joined = addUserToSession(id, username);
+    if(id !== story.id)
+    {
+        res.sendStatus(400);
+        return;
+    }
 
-    if(!joined)
+    const updated_story = updateStory(story);
+
+    if(!updated_story)
     {
         res.sendStatus(404);
         return;
     }
 
-    res.status(200).json({
-        sessionId: joined.session.id,
-        userId: joined.user.id,
-        username: joined.user.name
-    });
+    res.status(200).json(updated_story);
 });
 
-// Lets user leave a session
-app.post('/sessions/:id/leave', (req, res) => {
-    const {id} = req.params;
-    const {userId} = req.body;
-
-    if(!getSessionById(id))
-    {
-        res.sendStatus(404);
-        return;
-    }
-
-    if(!userId)
-    {
-        res.sendStatus(400);
-        return;
-    }
-
-    if(!removeUserFromSession(id, userId))
-    {
-        res.sendStatus(404);
-        return;
-    }
-
-    res.status(200).json({
-        userId: userId,
-    });
+// Join a collaborative story via the collab link
+app.get('/collaborative/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'story_editor.html'));
 });
 
-// Allows user to replace or add text to a sessions' story
-app.post('/sessions/:id/write', (req, res) => {
-    const {id} = req.params;
-    const{userId, title, prompt, text, mode} = req.body;
-
-    const session = getSessionById(id);
-
-    if(!session)
-    {
-        res.sendStatus(404);
-        return;
-    }
-    
-    const oldStory = session.content;
-
-    if(!userId || typeof text != "string" || !title)
-    {
-        res.sendStatus(400);
-        return;
-    }
-
-    if(!session.users.has(userId))
-    {
-        res.sendStatus(404);
-        return;
-    }
-
-    if(session.title !== title)
-    {
-        session.title = title;
-    }
-
-    if(session.prompt !== prompt)
-    {
-        session.prompt = prompt;
-    }
-
-    if(mode === "replace")
-    {
-        session.content = text;
-    }
-
-    else if(mode === "append")
-    {
-        session.content += text;
-    }
-
-    else
-    {
-        res.sendStatus(400);
-        return;
-    }
-
-    if(session.promptLocked === false)
-    {
-        const new_story = session.content;
-
-        if(oldStory.trim().length === 0 && new_story.trim().length > 0)
-        {
-            session.promptLocked = true;
-        }
-    }
-
-    session.updatedAt = new Date().toISOString();
-    res.status(200).json({
-        promptLocked: session.promptLocked
-    });
-});
-
-/*--- Community ----*/
+/*---- Community ----*/
 
 /* Writing Workshop */
 removeExpiredSubmissions(); // Run once on startup
@@ -357,7 +204,7 @@ app.post('/community/prompt-submissions/simple-prompt-submission', (req, res) =>
         return;
     }
 
-    const filePath = path.join(__dirname, "./data/simple_prompts.json");
+    const filePath = path.join(__dirname, "./data/simple_prompt_submissions.json");
     const id = generatePromptSubmissionId("simple_prompt");
     const sp_submission = {
         submissionId: id,
@@ -389,7 +236,7 @@ app.post('/community/prompt-submissions/generator-contribution-submission', (req
         return;
     }
 
-    const filePath = path.join(__dirname, "./data/generator_contributions.json");
+    const filePath = path.join(__dirname, "./data/generator_contribution_submissions.json");
     const id = generatePromptSubmissionId("generator_contribution");
     const gc_submission = {
         submissionId: id,

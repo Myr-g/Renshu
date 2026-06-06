@@ -30,12 +30,60 @@ const txt_download_button = document.getElementById("txt_download");
 const pdf_download_button = document.getElementById("pdf_download");
 
 /*---- Variables ----*/
+let story = null;
 let regenerationDisabled = false;
 let isExiting = false;
 let autosaveTimeout;
 let saving = false;
 let isDirty = false;
 let saveTextTimeout;
+
+generateWriterId();
+
+function generateWriterId()
+{
+  if(localStorage.getItem("writerId"))
+  {
+    return;
+  }
+
+  localStorage.setItem("writerId", "writer_" + crypto.randomUUID());
+}
+
+function getLocalStory()
+{
+  const storyId = localStorage.getItem("storyId"); 
+  
+  if(!storyId)
+  {
+    return null;
+  }
+
+  const story = getStory(storyId);
+
+  if(!story)
+  {
+    return null;
+  }
+
+  return story;
+}
+
+async function getCollaborativeStory()
+{
+  const storyId = window.location.pathname.split('/')[2];
+
+  const res = await fetch(`/collaborative-stories/${storyId}`);
+  
+  if(!res.ok)
+  {
+    console.log("Collaborative story not found.");
+    return null;
+  }
+  
+  const data = await res.json();
+  return data;
+}
 
 /* Back Button*/
 back_button.addEventListener("click", async () => {
@@ -68,52 +116,49 @@ story_title.addEventListener("keydown", (e) => {
 });
 
 function updateTitle()
-{
-    const storyId = localStorage.getItem("storyId");    
-    const story = getStory(storyId);
+{   
+  let updatedTitle = story_title.textContent.trim();
     
-    let updatedTitle = story_title.textContent.trim();
+  if(updatedTitle.length === 0) 
+  {
+    updatedTitle = "Untitled";
+  }
     
-    if(updatedTitle.length === 0) 
-    {
-        updatedTitle = "Untitled";
-    }
+  story.title = updatedTitle;
+  page_name.textContent = updatedTitle;
+  story_title.textContent = updatedTitle;
     
-    story.title = updatedTitle;
-    page_name.textContent = updatedTitle;
-    story_title.textContent = updatedTitle;
-    
-    saveStorySM(story);
+  saveStory();
 }
 
 /* Story Settings Menu */
 
 /* Opening/Closing */
 settings_toggle.addEventListener("click", (event) => {
-    event.stopPropagation();
+  event.stopPropagation();
     
-    story_settings.classList.toggle("open");
+  story_settings.classList.toggle("open");
 
-    if(story_settings.classList.contains("open")) 
-    {
-        const rect = settings_toggle.getBoundingClientRect();
-        story_settings.style.left = `${rect.right - 400}px`;
-        story_settings.style.top = `${rect.bottom - 175}px`;
+  if(story_settings.classList.contains("open")) 
+  {
+    const rect = settings_toggle.getBoundingClientRect();
+    story_settings.style.left = `${rect.right - 400}px`;
+    story_settings.style.top = `${rect.bottom - 175}px`;
   }
 });
 
 document.addEventListener("click", (e) => {
-    e.stopPropagation();
+  e.stopPropagation();
 
-    if(!story_settings.contains(e.target) && e.target !== settings_toggle) 
-    {
-        story_settings.classList.remove("open");
-    }
+  if(!story_settings.contains(e.target) && e.target !== settings_toggle) 
+  {
+    story_settings.classList.remove("open");
+  }
 
-    if(!download_menu.contains(event.target) && event.target !== download_button) 
-    {
-        download_menu.classList.remove("open");
-    }
+  if(!download_menu.contains(event.target) && event.target !== download_button) 
+  {
+    download_menu.classList.remove("open");
+  }
 });
 
 /* Genre */
@@ -133,35 +178,46 @@ async function loadGenreList()
 }
 
 story_genre.addEventListener("change", () => {
-    const storyId = localStorage.getItem("storyId");
-    const story = getStory(storyId);
+  story.genre = story_genre.value;
 
-    story.genre = story_genre.value;
-
-    saveStorySM(story);
+  saveStory();
 });
 
-
 /* Story Type */
-story_type_toggle.addEventListener("click", () => {
-    const storyId = localStorage.getItem("storyId");    
-    const story = getStory(storyId);
-
-    if(solo_toggle.classList.contains("active"))
+story_type_toggle.addEventListener("click", async() => {
+  if(solo_toggle.classList.contains("active"))
+  {
+    try 
     {
-        solo_toggle.classList.toggle("active");
-        collaborative_toggle.classList.toggle("active");
-        story.type = "collaborative";
-        saveStorySM(story);
-    }
+      const res = await fetch(`/collaborative-stories/create`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({story})
+      });
 
-    else
+      if(res.status === 400)
+      {
+        console.error("Invalid collaborative story creation request:", res.status);
+        return;
+      }
+
+      const data = await res.json();
+      console.log(data);
+
+      solo_toggle.classList.toggle("active");
+      collaborative_toggle.classList.toggle("active");
+
+      story.type = "collaborative";
+      saveStorySM(story);
+
+      window.location.href = data.join_url;
+    } 
+  
+    catch(err) 
     {
-        solo_toggle.classList.toggle("active");
-        collaborative_toggle.classList.toggle("active");
-        story.type = "solo";
-        saveStorySM(story);
+      console.error("Network error:", err);
     }
+  }
 });
 
 /* Prompt Type */
@@ -174,39 +230,34 @@ prompt_type_toggles.forEach(toggle => {
     prompt_type_toggles.forEach(t => t.classList.remove("active"));
     toggle.classList.add("active");
 
-    const storyId = localStorage.getItem("storyId");
-    const story = getStory(storyId);
     story.promptType = type;
 
     if(type !== "none")
     {
-        story_prompt.hidden = false;
-        story_prompt.classList.add("show");
-        const prompt = generatePrompt(type);
-        story.prompt = prompt;
-        prompt_text.textContent = prompt;
+      story_prompt.hidden = false;
+      story_prompt.classList.add("show");
+      const prompt = generatePrompt(type);
+      story.prompt = prompt;
+      prompt_text.textContent = prompt;
 
-        if(type === "challenge")
-        {
-            prompt_text.innerHTML = prompt_text.textContent.replace(/\n/g, "<br>");
-        }
+      if(type === "challenge")
+      {
+        prompt_text.innerHTML = prompt_text.textContent.replace(/\n/g, "<br>");
+      }
     }
 
     else
     {
-        story_prompt.hidden = true;
+      story_prompt.hidden = true;
+      prompt_text.innerHTML = "";
     }
 
-    saveStorySM(story);
+    saveStory();
   });
 });
 
-
 /*---- Prompt ----*/
 regen_button.addEventListener("click", async () => {
-    const storyId = localStorage.getItem("storyId");
-    const story = getStory(storyId);
-
     const prompt = generatePrompt(story.promptType);
     story.prompt = prompt;
     prompt_text.textContent = prompt;
@@ -216,7 +267,7 @@ regen_button.addEventListener("click", async () => {
         prompt_text.innerHTML = prompt_text.textContent.replace(/\n/g, "<br>");
     }
 
-    saveStorySM(story);
+    saveStory();
 });
 
 function generatePrompt(source)
@@ -230,8 +281,6 @@ function generatePrompt(source)
   const icon = regen_button.querySelector('svg')
   icon.classList.add('spin');
 
-  const storyId = localStorage.getItem("storyId");
-  const story = getStory(storyId);
   const genre = story.genre;
   let prompt = "";
 
@@ -284,7 +333,37 @@ story_content.addEventListener("input", async () => {
   }, 1500);
 });
 
-function saveStory()
+function saveLocalStory()
+{
+  const text = story_content.value;
+  story.content = text;
+
+  saveStorySM(story);
+
+  isDirty = false;
+}
+
+async function saveCollaborativeStory()
+{
+  const text = story_content.value;
+  story.content = text;
+
+  const res = await fetch(`/collaborative-stories/${story.id}/update`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({story})
+  });
+
+  if(res.status === 400)
+  {
+    console.error("Invalid collaborative story update request: ", res.status);
+    return;
+  }
+
+  isDirty = false;
+}
+
+async function saveStory()
 {
   if(saving)
   {
@@ -293,33 +372,15 @@ function saveStory()
 
   saving = true;
 
-  const storyId = localStorage.getItem("storyId");
-  const text = story_content.value;
-
-  if(!storyId)
+  if(story.type === "solo")
   {
-    console.error("Story ID not found.")
-    showSaveStatus("save failed");
-    saving = false;
-    return;
+    saveLocalStory();
   }
 
-  const story = getStory(storyId);
-
-  if(!story)
+  else
   {
-    console.error("Story not found.");
-    showSaveStatus("save failed");
-    saving = false;
-    return;
+    await saveCollaborativeStory();
   }
-
-  story.content = text;
-
-  saveStorySM(story);
-  console.log("Story Updated");
-
-  isDirty = false;
 
   showSaveStatus("saved");
 
@@ -328,8 +389,8 @@ function saveStory()
     regenerationDisabled = true;
     regen_button.disabled = true;
     document.querySelectorAll(".prompt_type").forEach(toggle => {
-        toggle.disabled = true;
-        toggle.classList.add("locked");
+      toggle.disabled = true;
+      toggle.classList.add("locked");
     });
   }
 
@@ -383,6 +444,7 @@ function showSaveStatus(message)
   }
 }
 
+/*---- Downloading ----*/
 download_button.addEventListener("click", (event) => {
   event.stopPropagation();
 
@@ -391,10 +453,6 @@ download_button.addEventListener("click", (event) => {
 
 txt_download_button.addEventListener("click", (event) => {
   event.stopPropagation();
-  
-  const storyId = localStorage.getItem("storyId");
-
-  const story = getStory(storyId);
 
   if(!story)
   {
@@ -423,10 +481,6 @@ txt_download_button.addEventListener("click", (event) => {
 
 pdf_download_button.addEventListener("click", async (event) => {
   event.stopPropagation();
-  
-  const storyId = localStorage.getItem("storyId");
-
-  const story = getStory(storyId);
 
   if(!story)
   {
@@ -470,20 +524,28 @@ window.addEventListener("beforeunload", (e) => {
 
 /*---- On Page Load/Refresh ----*/
 window.addEventListener("DOMContentLoaded", async () => {
-  const storyId = localStorage.getItem("storyId");
+  const path = window.location.pathname;
 
-  if(!storyId)
+  if(path.startsWith("/collaborative/")) 
   {
-    window.location.href = "/";
-    return;
+    story = await getCollaborativeStory();
+
+    if(!story)
+    {
+      window.location.href = "/";
+      return;
+    }
   }
 
-  const story = getStory(storyId);
-
-  if(!story)
+  else
   {
-    window.location.href = "/";
-    return;
+    story = getLocalStory();
+
+    if(!story)
+    {
+      window.location.href = "/";
+      return;
+    }
   }
 
   page_name.textContent = story.title;
@@ -502,6 +564,17 @@ window.addEventListener("DOMContentLoaded", async () => {
     collaborative_toggle.classList.remove("active");
   }
 
+  else if(story.type === "collaborative")
+  {
+    solo_toggle.disabled = true;
+    solo_toggle.classList.remove("active");
+    solo_toggle.classList.add("locked");
+
+    collaborative_toggle.disabled = true;
+    collaborative_toggle.classList.add("active");
+    collaborative_toggle.classList.add("locked");
+  }
+
   else
   {
     solo_toggle.classList.remove("active");
@@ -513,12 +586,12 @@ window.addEventListener("DOMContentLoaded", async () => {
   prompt_type_toggles.forEach(toggle => {
     if(toggle.dataset.type === story.promptType)
     {
-        toggle.classList.add("active");
+      toggle.classList.add("active");
     }
 
     else
     {
-        toggle.classList.remove("active");
+      toggle.classList.remove("active");
     }
   });
   

@@ -6,7 +6,7 @@ const workshop_submissions = new Map(); // Key is the ID, Value is the review ob
 const workshop_rate_limits = new Map();
 const review_rate_limits = new Map();
 
-const filePath = path.join(__dirname, "./data/story_reviews.json");
+const filePath = path.join(__dirname, "./data/workshops.json");
 loadMapFromJsonFile(filePath, workshop_submissions);
 
 function createWorkshopSubmission(reviewerId, title, content, authorsNote, tags)
