@@ -1,8 +1,8 @@
-# Creative Writing Practice App
+# Renshū
 A simple, cozy space for writers to practice their craft.
 
 ## Overview
-The Creative Writing Practice App is a browser‑based tool for writers to draft stories, explore prompts, and practice their craft. You can start a new story, choose a genre, generate prompts, write freely, and save your work locally.
+Renshū is a browser‑based tool for writers to draft stories, explore prompts, and practice their craft. You can start a new story, choose a genre, generate prompts, write freely, and save your work locally.
 
 The app now supports real‑time collaborative writing through WebSockets, letting multiple writers work together smoothly in a shared editor. The prompt generator has expanded with new templates, word banks, and challenge modes, and the community workshop introduces a lightweight, anonymous space for sharing stories and exchanging feedback.
 
