@@ -1,44 +1,22 @@
-const { generateSessionId, generateUserId } = require("./utils/ids");
+const sessions = new Map();
 
-const sessions_by_id = new Map(); // key is the session id, value is the session
-const sessions_by_name = new Map(); //key is the session name, value is the session id
-
-function createSession(name, genre, promptType)
+function createSession(storyId)
 {
-    const display_name = name;
-    const normalized_name = name.toLowerCase();
-
-    if(sessions_by_name.has(normalized_name))
-    {
-        return null;
-    }
-
-    const session_id = generateSessionId();
-
-    let new_session = {
-        id: session_id,
-        title: display_name,
-        genre: genre,
-        promptType: promptType,
-        prompt: "",
-        promptLocked: false,
-        content: "",
-        users: new Map(),
-        createdAt: new Date().toISOString(),
-        updatedAt: null
+    const session = {
+        storyId: storyId,
+        users: new Set()
     };
 
-    sessions_by_id.set(session_id, new_session);
-    sessions_by_name.set(normalized_name, session_id);
+    sessions.set(storyId, session);
 
-    return new_session;
+    return session;
 }
 
-function getSessionById(session_id)
+function getSession(storyId)
 {
-    if(sessions_by_id.has(session_id))
+    if(sessions.has(storyId))
     {
-        return sessions_by_id.get(session_id);
+        return sessions.get(storyId);
     }
 
     else
@@ -47,70 +25,48 @@ function getSessionById(session_id)
     }
 }
 
-function getSessionByName(session_name)
+function joinSession(storyId, userId)
 {
-    const normalized_name = session_name.toLowerCase();
+    let session = getSession(storyId);
 
-    if(sessions_by_name.has(normalized_name))
+    if(!session)
     {
-        return getSessionById(sessions_by_name.get(normalized_name));
+        session = createSession(storyId);
     }
 
-    else
-    {
-        return null;
-    }
+    session.users.add(userId);
+    return session;
 }
 
-function getSessions()
+function leaveSession(storyId, userId)
 {
-    const sessions_array = Array.from(sessions_by_id, ([id, session]) => ({ ...session }));
-    return sessions_array;
-}
-
-function addUserToSession(session_id, username)
-{
-    const session = getSessionById(session_id);
+    const session = getSession(storyId);
 
     if(!session)
     {
         return null;
     }
 
-    const user_id = generateUserId();
+    session.users.delete(userId);
 
-    let new_user = {
-        id: user_id,
-        name: username,
-        joinedAt: new Date().toISOString()
-    };
+    removeEmptySession(storyId);
 
-    session.users.set(user_id, new_user);
-
-    return {session, user: new_user};
+    return session;
 }
 
-function removeUserFromSession(session_id, user_id)
+function removeEmptySession(storyId)
 {
-    const session = getSessionById(session_id);
+    const session = getSession(storyId);
 
     if(!session)
     {
-        return false;
+        return null;
     }
-
-    if(!session.users.delete(user_id))
-    {
-        return false;
-    }
-
+    
     if(session.users.size === 0)
     {
-        sessions_by_id.delete(session_id);
-        sessions_by_name.delete(session.title.toLowerCase());
+        sessions.delete(storyId);
     }
-
-    return true;
 }
 
-module.exports = {createSession, getSessionById, getSessionByName, getSessions, addUserToSession, removeUserFromSession};
+module.exports = { createSession, getSession, joinSession, leaveSession };

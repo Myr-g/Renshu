@@ -2,7 +2,8 @@
   "name": "collaborative-story-server",
   "version": "1.0.0",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "ws": "^8.21.0"
   },
   "scripts": {
     "start": "node server/server.js"

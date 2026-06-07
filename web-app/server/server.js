@@ -1,10 +1,13 @@
 const express = require("express");
 const path = require("path");
-const { createSession, getSessions, getSessionById, addUserToSession, removeUserFromSession } = require("./sessions");
 const { createStory, getStory, updateStory } = require("./collaborative_stories");
 const { createWorkshopSubmission, getWorkshopSubmission, getWorkshopSubmissions, getWorkshopRateLimits, removeExpiredSubmissions, addReview, getReviewRateLimits } = require("./workshop");
 const { generatePromptSubmissionId } = require("./utils/ids");
 const { appendToJsonFile } = require("./utils/file_helper");
+
+const http = require('http');
+const WebSocket = require("ws");
+const { createSession, getSession, joinSession, leaveSession } = require("./sessions");
 
 const app = express();
 app.use(express.json());
@@ -254,7 +257,98 @@ app.post('/community/prompt-submissions/generator-contribution-submission', (req
     });
 });
 
+/*---- Web Sockets ----*/
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
+const ws_connections = new Map();
+
+wss.on("connection", (ws, req) => {
+    console.log("WebSocket connected");
+
+    ws.on("message", (msg) => {
+        let data;
+
+        try 
+        {
+            data = JSON.parse(msg.toString());
+        } 
+        
+        catch (err) 
+        {
+            console.error("Invalid JSON from client:", msg.toString());
+            return;
+        }
+
+        if (data.type === "join") 
+        {
+            if(!data.storyId || !data.userId) 
+            {
+                console.warn("Join request missing storyId or userId");
+                return;
+            }
+
+            joinSession(data.storyId, data.userId);
+
+            ws_connections.set(ws, { storyId: data.storyId, userId: data.userId });
+        }
+
+        if(data.type === "update") 
+        {
+            const info = ws_connections.get(ws);
+
+            if(!info)
+            {
+                return;
+            }
+
+            const { storyId, userId } = info;
+
+            broadcastToSession(storyId, userId, { type: "update", storyId, content: data.content });
+        }
+    });
+
+    ws.on("close", () => {
+        const info = ws_connections.get(ws);
+
+        if(info) 
+        {
+            leaveSession(info.storyId, info.userId);
+            ws_connections.delete(ws);
+        }
+
+        console.log("WebSocket disconnected");
+    });
+});
+
+
+function broadcastToSession(storyId, senderId, payload) 
+{
+    const session = getSession(storyId);
+
+    if(!session)
+    {
+        return;
+    }
+
+    for(const userId of session.users) 
+    {
+        if(userId === senderId)
+        {
+            continue;
+        }
+
+        for(const [ws, info] of ws_connections.entries()) 
+        {
+            if (info.userId === userId && ws.readyState === WebSocket.OPEN)
+            {
+                ws.send(JSON.stringify(payload));
+            }
+        }
+    }
+}
+
 const PORT = 8080;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

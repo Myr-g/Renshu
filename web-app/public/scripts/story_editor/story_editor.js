@@ -37,6 +37,7 @@ let autosaveTimeout;
 let saving = false;
 let isDirty = false;
 let saveTextTimeout;
+let socket = null;
 
 generateWriterId();
 
@@ -236,6 +237,7 @@ prompt_type_toggles.forEach(toggle => {
     {
       story_prompt.hidden = false;
       story_prompt.classList.add("show");
+      
       const prompt = generatePrompt(type);
       story.prompt = prompt;
       prompt_text.textContent = prompt;
@@ -244,12 +246,15 @@ prompt_type_toggles.forEach(toggle => {
       {
         prompt_text.innerHTML = prompt_text.textContent.replace(/\n/g, "<br>");
       }
+
+      regen_button.style.display = "";
     }
 
     else
     {
       story_prompt.hidden = true;
       prompt_text.innerHTML = "";
+      regen_button.style.display = "none";
     }
 
     saveStory();
@@ -361,6 +366,9 @@ async function saveCollaborativeStory()
   }
 
   isDirty = false;
+
+  // Send update from socket to rest of session
+  socket.send(JSON.stringify({ type: "update", storyId: story.id, content: text }));
 }
 
 async function saveStory()
@@ -535,6 +543,26 @@ window.addEventListener("DOMContentLoaded", async () => {
       window.location.href = "/";
       return;
     }
+
+    socket = new WebSocket(`${window.location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}`);
+
+    socket.addEventListener("open", () => {
+      console.log("Socket connected");
+      socket.send(JSON.stringify({ type: "join", storyId: story.id, userId: localStorage.getItem("writerId") }));
+    });
+
+    socket.addEventListener("message", (event) => {
+      const data = JSON.parse(event.data);
+
+      if(data.type === "update") 
+      {
+        story_content.value = data.content;
+      }
+   });
+
+    socket.addEventListener("close", () => {
+      console.log("Socket disconnected");
+    });
   }
 
   else
@@ -544,6 +572,12 @@ window.addEventListener("DOMContentLoaded", async () => {
     if(!story)
     {
       window.location.href = "/";
+      return;
+    }
+
+    if(story.type === "collaborative")
+    {
+      window.location.href = `/collaborative/${story.id}`;
       return;
     }
   }
@@ -599,15 +633,14 @@ window.addEventListener("DOMContentLoaded", async () => {
   {
     regenerationDisabled = true;
     regen_button.disabled = true;
-    regen_button.hidden = true;
   }
 
   else
   {
     if(!story.prompt && !regenerationDisabled)
     {
-        const prompt = generatePrompt(story.promptType);
-        story.prompt = prompt;
+      const prompt = generatePrompt(story.promptType);
+      story.prompt = prompt;
     }
 
     prompt_text.textContent = story.prompt;
@@ -616,6 +649,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     {
       prompt_text.innerHTML = prompt_text.textContent.replace(/\n/g, "<br>");
     }
+
+    regen_button.style.display = "";
   }
 
   regenerationDisabled = story.promptLocked;
