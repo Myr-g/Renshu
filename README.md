@@ -92,7 +92,7 @@ Personalizing the writing environment to better match each writer's preferences
 - Writing panel styling
 - Accents
 - Prompt display options
-- 
+  
 ### Prompt Generator Expansion
 - More genre banks
 
