@@ -51,7 +51,6 @@ h2 {
 }
 
 p {
-  max-width: 65ch;
   color: var(--text-muted);
 }
 
