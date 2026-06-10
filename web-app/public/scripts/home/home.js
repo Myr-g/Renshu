@@ -29,6 +29,8 @@ function loadStories()
     const stories = getStories();
     stories.sort((a, b) => new Date(b.updatedAt || b.createdAt) - new Date(a.updatedAt || a.createdAt));
 
+    story_cards.innerHTML = "";
+
     for(const story of stories)
     {
         const story_card = document.createElement("div");
@@ -39,9 +41,33 @@ function loadStories()
             window.location.href = "/story_editor.html";
         });
 
+        const story_header = document.createElement("div");
+        story_header.classList.add("story_header");
+
         const story_title = document.createElement("h2");
         story_title.classList.add("story_title");
         story_title.textContent = story.title;
+
+        const delete_container = document.createElement("div");
+        delete_container.classList.add("delete_container");
+
+        const delete_button = document.createElement("button");
+        delete_button.classList.add("delete_button");
+        delete_button.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none" />
+	        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16l-1.58 14.22A2 2 0 0 1 16.432 22H7.568a2 2 0 0 1-1.988-1.78zm3.345-2.853A2 2 0 0 1 9.154 2h5.692a2 2 0 0 1 1.81 1.147L18 6H6zM2 6h20m-12 5v5m4-5v5" />
+        </svg>`;
+
+        delete_button.addEventListener("click", (event) => {
+            event.stopPropagation();
+            deleteStory(story.id);
+            loadStories();
+        });
+
+        delete_container.appendChild(delete_button);
+        story_header.appendChild(story_title);
+        story_header.appendChild(delete_container);
 
         const story_info = document.createElement("p");
         story_info.classList.add("story_info");
@@ -65,7 +91,7 @@ function loadStories()
         story_excerpt.classList.add("story_excerpt");
         story_excerpt.textContent = generateExcerpt(story.content) || "Start writing...";
 
-        story_card.appendChild(story_title);
+        story_card.appendChild(story_header);
         story_card.appendChild(story_info);
         story_card.appendChild(story_excerpt);
         story_card.appendChild(story_last_update);
@@ -73,10 +99,18 @@ function loadStories()
     }
 }
 
-function generateExcerpt(content)
+function generateExcerpt(content) 
 {
-    return content.replace(/\s+/g, " ").trim().slice(0, 180);
+    const excerpt = content.replace(/\s+/g, " ").trim();
+
+    if(excerpt.length <= 180) 
+    {
+        return excerpt;
+    }
+
+    return excerpt.slice(0, 180).trim() + "…";
 }
+
 
 function generateLastUpdatedTimestamp(updatedAt) 
 {

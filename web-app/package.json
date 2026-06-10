@@ -1,5 +1,5 @@
 {
-  "name": "collaborative-story-server",
+  "name": "renshu",
   "version": "1.0.0",
   "dependencies": {
     "express": "^5.2.1",
