@@ -221,8 +221,8 @@
 #review-input {
   width: 100%;
   min-height: 140px;
-
   padding: 1rem;
+  box-sizing: border-box;
 
   resize: vertical;
 

@@ -1,4 +1,6 @@
 /*---- DOM Elements ----*/
+const back_button = document.getElementById("back-button");
+
 const simple_prompt = document.getElementById("simple-prompt");
 const generator_contribution = document.getElementById("generator-contribution");
 
@@ -17,6 +19,10 @@ const generator_contribution_submission = document.getElementById("generator-con
 const contribution_notes = document.getElementById("contribution-notes");
 const generator_contribution_cancel = document.getElementById("generator-contribution-cancel");
 const generator_contribution_submit = document.getElementById("generator-contribution-submit");
+
+back_button.addEventListener("click", () => {
+    window.location.href = "/community.html";
+});
 
 /*---- Simple Prompt ----*/
 simple_prompt.addEventListener("click", () => {

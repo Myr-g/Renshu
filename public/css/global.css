@@ -34,6 +34,10 @@
   --placeholder-color: #aaa;
 
   --save-status-color: #444;
+
+  --scrollbar-track: #efefef;
+  --scrollbar-thumb: #999;
+  --scrollbar-thumb-hover: #777;
 }
 
 [data-theme="dark"] {
@@ -64,6 +68,10 @@
   --placeholder-color: #777;
 
   --save-status-color: #e6e6e6;
+
+  --scrollbar-track: #121212;
+  --scrollbar-thumb: #444;
+  --scrollbar-thumb-hover: #666;
 }
 
 /*---- General ----*/
@@ -79,7 +87,7 @@ body {
 }
 
 h1 {
-  font-size: 56px;
+  font-size: 40px;
   font-weight: 500;
   letter-spacing: -1.68px;
   margin: 32px 0;
@@ -138,6 +146,23 @@ select {
   border-radius: 12px;
   border-color: var(--border);
   background-color: var(--bg-paper);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
 }
 
 /*---- Layout ----*/

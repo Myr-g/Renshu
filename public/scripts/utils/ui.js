@@ -18,26 +18,28 @@ home_toggle.addEventListener("click", () => {
   if(localStorage.getItem("storyId"))
   {
     localStorage.removeItem("storyId");
-    window.location.href = "/";
   }
 
-  else
+  if(localStorage.getItem("workshopId"))
   {
-    window.location.href = "/";
+    localStorage.removeItem("workshopId");
   }
+
+  window.location.href = "/";
 });
 
 community_toggle.addEventListener("click", () => {
   if(localStorage.getItem("storyId"))
   {
     localStorage.removeItem("storyId");
-    window.location.href = "/community.html";
   }
 
-  else
+  if(localStorage.getItem("workshopId"))
   {
-    window.location.href = "/community.html";
+    localStorage.removeItem("workshopId");
   }
+
+  window.location.href = "/community.html";
 });
 
 function applyTheme(theme) {

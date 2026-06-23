@@ -22,7 +22,6 @@
 
   color: var(--text-main);
 
-  font-size: 3rem;
   font-weight: 700;
   letter-spacing: -1px;
 }
@@ -67,7 +66,7 @@
   margin-top: 0;
   margin-bottom: 0.75rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--section-divider);
+  border-bottom: 1px solid var(--border);
 }
 
 .community-card .description {
@@ -104,8 +103,40 @@
 }
 
 .ww-header {
-  margin-bottom: 2rem;
+  margin-bottom: 0.25rem;
   border-bottom: 1px solid var(--border);
+}
+
+.ww-header div {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  gap: 1rem;
+
+  padding: 0;
+  margin: 0;
+}
+
+.ww-header button {
+  background: none;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--text-muted);
+
+  padding: 0;
+  margin: 0;
+
+  cursor: pointer;
+}
+
+.ww-header button:hover {
+  background: none;
+  color: var(--text-main);
+  transform: translateX(-2px);
 }
 
 .ww-header h1 {
@@ -113,7 +144,6 @@
 
   color: var(--text-main);
 
-  font-size: 3rem;
   font-weight: 700;
   letter-spacing: -1px;
 }
@@ -123,7 +153,7 @@
 }
 
 .post-story {
-  border-bottom: 1px solid var(--section-divider);
+  border-bottom: 1px solid var(--border);
 }
 
 .post-story-card {
@@ -435,12 +465,43 @@
   border-bottom: 1px solid var(--border);
 }
 
+.pc-header div {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  gap: 1rem;
+
+  padding: 0;
+  margin: 0;
+}
+
+.pc-header button {
+  background: none;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--text-muted);
+
+  padding: 0;
+  margin: 0;
+
+  cursor: pointer;
+}
+
+.pc-header button:hover {
+  background: none;
+  color: var(--text-main);
+  transform: translateX(-2px);
+}
+
 .pc-header h1 {
   margin: 0;
 
   color: var(--text-main);
 
-  font-size: 3rem;
   font-weight: 700;
   letter-spacing: -1px;
 }
@@ -567,7 +628,7 @@ textarea:focus, select:focus {
 #contribution-guidelines, #contribution-example {
   padding: 0.85rem 1rem;
 
-  border-left: 2px solid var(--section-divider);
+  border-left: 2px solid var(--border);
 
   color: var(--text-muted);
 

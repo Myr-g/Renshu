@@ -1,6 +1,8 @@
 import { loadFilters } from "./filters/filter_tags.js";
 
 /*---- DOM Elements ----*/
+const back_button = document.getElementById("back-button");
+
 const post_story = document.getElementById("post-story-card");
 const post_story_form = document.getElementById("post-story-form");
 const post_story_title = document.getElementById("post-story-title");
@@ -29,6 +31,10 @@ function generateReviewerId()
 
     localStorage.setItem("reviewerId", "reviewer_" + crypto.randomUUID());
 }
+
+back_button.addEventListener("click", () => {
+    window.location.href = "/community.html";
+});
 
 /*---- Load Tags ----*/
 function createTagRow(category, tags, buttonClass) 
