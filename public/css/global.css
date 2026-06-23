@@ -17,7 +17,7 @@
   --text-muted: #555;
 
   --border: #ddd;
-  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.6);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.06);
 
   --section-divider: #ccc;
 
@@ -180,7 +180,7 @@ select {
   width: 200px;
   height: 100vh;
 
-  display: flex;
+  display: none;
   flex-direction: column;
   padding: 1rem;
   gap: 0.5rem;
@@ -230,6 +230,7 @@ select {
   border: none;
   color: var(--text-muted);
   cursor: pointer;
+  padding: 0;
 }
 
 .sidebar-header button:hover {
@@ -261,6 +262,7 @@ select {
 
 /* Content Container */
 .content-container {
+  visibility: hidden;
   flex: 1;
   overflow-y: auto;
   background: var(--bg-page);
@@ -272,4 +274,8 @@ select {
 
 .content-container.sidebar-collapsed {
   padding-left: 30px;
+}
+
+.no-transition {
+  transition: none !important;
 }

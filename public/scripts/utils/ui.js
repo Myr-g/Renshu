@@ -48,21 +48,29 @@ function applyTheme(theme) {
   theme_label.textContent = theme === "light" ? "Light" : "Dark";
 }
 
-const savedTheme = localStorage.getItem("theme");
-applyTheme(savedTheme || "dark");
-
 theme_toggle.addEventListener("click", () => {
   const current = document.documentElement.getAttribute("data-theme");
   const next = current === "light" ? "dark" : "light";
   applyTheme(next);
 });
 
-window.addEventListener("DOMContentLoaded", async () => {
-  const sidebarCollapsed = localStorage.getItem("sidebarCollapsed");
+window.addEventListener("DOMContentLoaded", () => {
+  const collapsed = localStorage.getItem("sidebarCollapsed") === "true";
 
-  if(sidebarCollapsed === "true")
+  container.classList.add("no-transition");
+
+  if(collapsed) 
   {
     sidebar.classList.add("collapsed");
     container.classList.add("sidebar-collapsed");
   }
+
+  sidebar.style.display = "flex";
+  container.style.visibility = "visible";
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      container.classList.remove("no-transition");
+    });
+  });
 });

@@ -6,6 +6,10 @@
     <title>Prompt Contributions</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/community.css">
+    <script>
+        const theme = localStorage.getItem("theme") || "dark";
+        document.documentElement.setAttribute("data-theme", theme);
+    </script>
 </head>
 <body>
     <div class="renshu-layout">
@@ -92,17 +96,23 @@
                         <label>Contribution Type</label>
                         <select id="contribution-type">
                             <option value="template">Template</option>
-                            <option value="word-bank">Word Bank</option>
-                            <option value="genre-addition">Genre Addition</option>
-                            <option value="challenge-rule">Challenge Rule</option>
+                            <option value="word_bank">Word Bank</option>
+                            <option value="genre_addition">Genre Addition</option>
+                            <option value="challenge_rule">Challenge Rule</option>
                         </select>
 
                         <div class="contribution-info">
-                            <label id="contribution-guidelines-toggle" class="contribution-info-toggle">Guidelines ▸</label>
-                            <p id="contribution-guidelines" class="contribuion-info" hidden></p>
+                            <label id="contribution-guidelines-toggle" class="contribution-info-toggle">
+                                <span>Guidelines</span>
+                                <div></div>
+                            </label>
+                            <p id="contribution-guidelines" class="contribution-info"></p>
 
-                            <label id="contribution-example-toggle" class="contribution-info-toggle">Example ▸</label>
-                            <p id="contribution-example" class="contribuion-info" hidden></p>
+                            <label id="contribution-example-toggle" class="contribution-info-toggle">
+                                <span>Example</span>
+                                <div></div>
+                            </label>
+                            <p id="contribution-example" class="contribution-info" hidden></p>
                         </div>
 
                         <label>Submission</label>

@@ -62,6 +62,16 @@ generator_contribution.addEventListener("click", () => {
     generator_contribution_form.classList.add("expanded");
     simple_prompt_form.classList.remove("expanded");
 
+    if(contribution_guidelines.textContent === "" && contribution_example.textContent === "")
+    {
+        updateContributionInfo();
+    }
+});
+
+generator_contribution_type.addEventListener("change", updateContributionInfo);
+
+function updateContributionInfo()
+{
     if(generator_contribution_type.value === "template")
     {
         contribution_guidelines.textContent = "Templates should establish a narrative setup or tension, using placeholders that are interchangeable to ensure a wide variety of different combinations for a single template.\n\n" +
@@ -121,38 +131,20 @@ generator_contribution.addEventListener("click", () => {
 
     contribution_guidelines.innerHTML = contribution_guidelines.textContent.replace(/\n/g, "<br>");
     contribution_example.innerHTML = contribution_example.textContent.replace(/\n/g, "<br>");
-});
+}
 
 contribution_guidelines_toggle.addEventListener("click", (event) => {
     event.stopPropagation();
 
-    contribution_guidelines.hidden = !contribution_guidelines.hidden;
-
-    if(contribution_guidelines.hidden)
-    {
-        contribution_guidelines_toggle.textContent = "Guidelines ▸";
-    }
-
-    else
-    {
-        contribution_guidelines_toggle.textContent = "Guidelines ▾";
-    }
+    contribution_guidelines_toggle.classList.toggle("expanded");
+    contribution_guidelines.classList.toggle("expanded");
 });
 
 contribution_example_toggle.addEventListener("click", (event) => {
     event.stopPropagation();
     
-    contribution_example.hidden = !contribution_example.hidden;
-
-    if(contribution_example.hidden)
-    {
-        contribution_example_toggle.textContent = "Example ▸";
-    }
-
-    else
-    {
-        contribution_example_toggle.textContent = "Example ▾";
-    }
+    contribution_example_toggle.classList.toggle("expanded");
+    contribution_example.classList.toggle("expanded");
 });
 
 generator_contribution_cancel.addEventListener("click", (event) => {
