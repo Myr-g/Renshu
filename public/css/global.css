@@ -1,0 +1,250 @@
+/*---- Root ----*/
+:root {
+  --space-sm: 0.5rem;
+  --space-md: 1.25rem;
+  --space-lg: 2.5rem;
+
+  --transition-fast: 0.15s ease;
+}
+
+/*---- Themes ----*/
+[data-theme="light"] {
+  --bg-page: #f6f6f6;
+  --bg-paper: #ffffff;
+  --bg-options: #fff;
+
+  --text-main: #222;
+  --text-muted: #555;
+
+  --border: #ddd;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.6);
+
+  --section-divider: #ccc;
+
+  --svg-color: #555;
+  --svg-hover: #222;
+
+  --sidebar-item-hover: rgba(0,0,0,0.05);
+
+  --button-bg: #444;
+  --button-border: #444;
+  --button-text: #fff;
+  --button-hover: #333;
+
+  --placeholder-color: #aaa;
+
+  --save-status-color: #444;
+}
+
+[data-theme="dark"] {
+  --space-sm: 0.5rem;
+  --space-md: 1.25rem;
+  --space-lg: 2.5rem;
+
+  --bg-page: #121212;
+  --bg-paper: #1b1b1b;
+  --bg-options: #2a2a2a;
+
+  --text-main: #e6e6e6;
+  --text-muted: #a0a0a0;
+
+  --border: #333;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.6);
+
+  --svg-color: #e6e6e6;
+  --svg-hover: #a0a0a0;
+
+  --sidebar-item-hover: #333;
+
+  --button-bg: #2a2a2a;
+  --button-border: #444;
+  --button-text: #fff;
+  --button-hover: #333;
+
+  --placeholder-color: #777;
+
+  --save-status-color: #e6e6e6;
+}
+
+/*---- General ----*/
+body {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  
+  margin: 0;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: Inter, system-ui, sans-serif;
+}
+
+h1 {
+  font-size: 56px;
+  font-weight: 500;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+}
+
+p {
+  color: var(--text-muted);
+}
+
+button {
+  font-family: inherit;
+  font-size: 1rem;
+
+  padding: 0.5rem 1rem;
+
+  border: 1px solid var(--button-border);
+  border-radius: 8px;
+
+  background-color: var(--button-bg);
+  color: white;
+
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+button:hover {
+  background-color: var(--button-hover);
+}
+
+button:active {
+  transform: scale(0.98);;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+select {
+  font-family: inherit;
+  font-size: 1rem;
+
+  padding: 0.5rem 0.6rem;
+
+  color: var(--text-main);
+
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  border-color: var(--border);
+  background-color: var(--bg-paper);
+}
+
+/*---- Layout ----*/
+.renshu-layout {
+  display: flex;
+  height: 100vh;
+  background: var(--bg-page);
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 0.5rem;
+
+  background: var(--bg-paper);
+  border-right: 1px solid var(--border);
+
+  color: var(--text-main);
+
+  transition: width 0.20s ease, background 0.20s ease;
+}
+
+.sidebar.collapsed {
+  width: 30px;
+  background: none;
+  border: none;
+}
+
+.sidebar.collapsed h2, .sidebar.collapsed .sidebar-item {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-header {
+  padding-top: 0.25rem;
+  justify-content: center;
+  border-bottom: none;
+}
+
+.sidebar-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  vertical-align: middle;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-main);
+}
+
+.sidebar-header h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.sidebar-header button {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.sidebar-header button:hover {
+  color: var(--text-main);
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+
+  color: var(--text-muted);
+
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.sidebar-item:hover {
+  background: var(--sidebar-item-hover);
+  color: var(--text-main);
+}
+
+.sidebar-item.active {
+  color: var(--text-main);
+}
+
+/* Content Container */
+.content-container {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg-page);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 200px;
+  transition: padding-left var(--transition-fast);
+}
+
+.content-container.sidebar-collapsed {
+  padding-left: 30px;
+}

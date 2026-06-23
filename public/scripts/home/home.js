@@ -1,8 +1,8 @@
 import { getStories, deleteStory, createStory } from "../utils/story_manager.js";
 
 /*---- DOM Elements ----*/
-const new_story_card = document.getElementById("new_story_card");
-const story_cards = document.getElementById("story_cards");
+const new_story_card = document.getElementById("new-story-card");
+const story_cards = document.getElementById("story-cards");
 
 generateWriterId();
 
@@ -34,7 +34,7 @@ function loadStories()
     for(const story of stories)
     {
         const story_card = document.createElement("div");
-        story_card.classList.add("story_card");
+        story_card.classList.add("story-card");
 
         story_card.addEventListener("click", () => {
             localStorage.setItem("storyId", story.id);
@@ -42,17 +42,17 @@ function loadStories()
         });
 
         const story_header = document.createElement("div");
-        story_header.classList.add("story_header");
+        story_header.classList.add("story-header");
 
         const story_title = document.createElement("h2");
-        story_title.classList.add("story_title");
+        story_title.classList.add("story-title");
         story_title.textContent = story.title;
 
         const delete_container = document.createElement("div");
-        delete_container.classList.add("delete_container");
+        delete_container.classList.add("delete-container");
 
         const delete_button = document.createElement("button");
-        delete_button.classList.add("delete_button");
+        delete_button.classList.add("delete-button");
         delete_button.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
             <path d="M0 0h24v24H0z" fill="none" />
@@ -70,7 +70,7 @@ function loadStories()
         story_header.appendChild(delete_container);
 
         const story_info = document.createElement("p");
-        story_info.classList.add("story_info");
+        story_info.classList.add("story-info");
 
         if(story.genre)
         {
@@ -83,12 +83,12 @@ function loadStories()
         }
 
         const story_last_update = document.createElement("p");
-        story_last_update.classList.add("story_last_update");
+        story_last_update.classList.add("story-last-update");
         story_last_update.textContent = generateLastUpdatedTimestamp(story.updatedAt || story.createdAt);
 
 
         const story_excerpt = document.createElement("p");
-        story_excerpt.classList.add("story_excerpt");
+        story_excerpt.classList.add("story-excerpt");
         story_excerpt.textContent = generateExcerpt(story.content) || "Start writing...";
 
         story_card.appendChild(story_header);

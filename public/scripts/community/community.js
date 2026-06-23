@@ -1,6 +1,6 @@
 /*---- DOM Elements ----*/
-const writing_workshop = document.getElementById("writing_workshop");
-const prompt_submissions = document.getElementById("prompt_submissions");
+const writing_workshop = document.getElementById("writing-workshop");
+const prompt_submissions = document.getElementById("prompt-submissions");
 
 /*---- Landing Page Navigation----*/
 writing_workshop.addEventListener("click", () => {

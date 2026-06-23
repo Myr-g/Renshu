@@ -6,28 +6,28 @@ import { formatStoryToPdf } from "./download/pdf_export.js";
 
 /*---- DOM Elements ----*/
 const page_name = document.getElementById("title");
-const story_title = document.getElementById("story_title");
+const story_title = document.getElementById("story-title");
 
-const settings_toggle = document.getElementById("settings_toggle");
-const story_settings = document.getElementById("story_settings");
+const settings_toggle = document.getElementById("settings-toggle");
+const story_settings = document.getElementById("story-settings");
 const story_genre = document.getElementById("genre");
-const story_type_toggle = document.getElementById("story_type_toggle");
-const solo_toggle = document.getElementById("solo_toggle");
-const collaborative_toggle = document.getElementById("collaborative_toggle");
+const story_type_toggle = document.getElementById("story-type-toggle");
+const solo_toggle = document.getElementById("solo-toggle");
+const collaborative_toggle = document.getElementById("collaborative-toggle");
 
-const story_prompt = document.getElementById("story_prompt");
-const prompt_text = document.getElementById("prompt_text");
-const regen_button = document.getElementById("regenerate_prompt");
+const story_prompt = document.getElementById("story-prompt");
+const prompt_text = document.getElementById("prompt-text");
+const regen_button = document.getElementById("regenerate-prompt");
 
-const story_content = document.getElementById("story_content");
-const back_button = document.getElementById("back_button");
-const save_button = document.getElementById("save_story");
-const save_icon = document.getElementById("save_icon");
-const save_text = document.getElementById("save_text");
-const download_button = document.getElementById("download_story");
-const download_menu = document.getElementById("download_menu");
-const txt_download_button = document.getElementById("txt_download");
-const pdf_download_button = document.getElementById("pdf_download");
+const story_content = document.getElementById("story-content");
+const back_button = document.getElementById("back-button");
+const save_button = document.getElementById("save-story");
+const save_icon = document.getElementById("save-icon");
+const save_text = document.getElementById("save-text");
+const download_button = document.getElementById("download-story");
+const download_menu = document.getElementById("download-menu");
+const txt_download_button = document.getElementById("txt-download");
+const pdf_download_button = document.getElementById("pdf-download");
 
 /*---- Variables ----*/
 let story = null;
@@ -139,13 +139,6 @@ settings_toggle.addEventListener("click", (event) => {
   event.stopPropagation();
     
   story_settings.classList.toggle("open");
-
-  if(story_settings.classList.contains("open")) 
-  {
-    const rect = settings_toggle.getBoundingClientRect();
-    story_settings.style.left = `${rect.right - 400}px`;
-    story_settings.style.top = `${rect.bottom - 175}px`;
-  }
 });
 
 document.addEventListener("click", (e) => {

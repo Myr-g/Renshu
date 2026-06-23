@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Contributions</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/community.css">
+</head>
+<body>
+    <div class="renshu-layout">
+        <div id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h2></h2>
+                <h2>Menu</h2>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M0 0h25v24H0z" fill="none" />
+                        <path fill="currentColor" d="M3.563 6a.75.75 0 0 1 .75-.75h16a.75.75 0 0 1 0 1.5h-16a.75.75 0 0 1-.75-.75m0 12a.75.75 0 0 1 .75-.75h16a.75.75 0 0 1 0 1.5h-16a.75.75 0 0 1-.75-.75m.75-6.75a.75.75 0 0 0 0 1.5h16a.75.75 0 0 0 0-1.5z" />
+                    </svg>
+                </button>
+            </div>
+
+
+            <div id="home-toggle" class="sidebar-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+	                <g fill="none" fill-rule="evenodd">
+		                <path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+		                <path fill="currentColor" d="M10.772 2.688a2 2 0 0 1 2.456 0l8.384 6.52c.753.587.337 1.792-.615 1.792H20v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8h-.997c-.953 0-1.367-1.206-.615-1.791z" />
+	                </g>
+                </svg>
+                <span id="home-label">Home</span>
+            </div>
+        
+            <div id="community-toggle" class="sidebar-item active">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+	                <g fill="none">
+		                <path d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z" />
+		                <path fill="currentColor" d="M12 12c1.873 0 3.57.62 4.815 1.487c1.183.825 2.185 2.051 2.185 3.37c0 .724-.309 1.324-.796 1.77c-.458.421-1.056.694-1.672.88C15.301 19.88 13.68 20 12 20s-3.301-.12-4.532-.493c-.616-.186-1.214-.459-1.673-.88C5.31 18.182 5 17.582 5 16.858c0-1.319 1.002-2.545 2.185-3.37C8.43 12.62 10.127 12 12 12m7 1c1.044 0 1.992.345 2.693.833c.64.447 1.307 1.19 1.307 2.096c0 .517-.225.946-.56 1.253c-.306.281-.684.446-1.029.55c-.47.142-1.025.215-1.601.247c.122-.345.19-.72.19-1.122c0-1.535-.959-2.839-2.032-3.744A4.8 4.8 0 0 1 19 13M5 13q.537.002 1.032.113C4.96 14.018 4 15.322 4 16.857c0 .402.068.777.19 1.122c-.576-.032-1.13-.105-1.601-.247c-.345-.104-.723-.269-1.03-.55A1.68 1.68 0 0 1 1 15.93c0-.905.666-1.649 1.307-2.096A4.76 4.76 0 0 1 5 13m13.5-6a2.5 2.5 0 1 1 0 5a2.5 2.5 0 0 1 0-5m-13 0a2.5 2.5 0 1 1 0 5a2.5 2.5 0 0 1 0-5M12 3a4 4 0 1 1 0 8a4 4 0 0 1 0-8" />
+	                </g>
+                </svg>
+                <span id="community-label">Community</span>
+            </div>
+
+            <div id="theme-toggle" class="sidebar-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 32 32">
+	                <path d="M0 0h32v32H0z" fill="none" />
+	                <path fill="currentColor" d="M15.653 7.25c-3.417 0-8.577.983-8.577 3.282c0 1.91 2.704 3.23 1.69 3.89c-1.02.665-2.683-1.85-4.047-1.85c-1.654 0-2.816 1.435-2.816 2.927c0 4.557 6.326 8.25 13.75 8.25c7.423 0 13.442-3.693 13.442-8.25c0-4.556-6.02-8.25-13.443-8.25zm-5.345 6.27c0-.644.887-1.165 1.98-1.165s1.98.52 1.98 1.166s-.887 1.167-1.98 1.167s-1.98-.523-1.98-1.166zm3.98 8.78c-1.057 0-1.913-.68-1.913-1.52s.856-1.517 1.914-1.517c1.056 0 1.913.68 1.913 1.518s-.857 1.52-1.914 1.52zm5.323-.53c-1.056 0-1.912-.68-1.912-1.518c0-.84.856-1.52 1.913-1.52c1.06 0 1.915.68 1.915 1.52s-.855 1.52-1.914 1.52zm.465-11.11c0-.838.856-1.518 1.914-1.518s1.912.68 1.912 1.518c0 .84-.855 1.518-1.913 1.518c-1.056 0-1.915-.68-1.915-1.518zm4.2 8.822c-1.057 0-1.914-.68-1.914-1.52s.858-1.517 1.915-1.517c1.06 0 1.914.68 1.914 1.518s-.856 1.52-1.915 1.52zm1.01-4.007c-1.057 0-1.913-.68-1.913-1.52c0-.837.856-1.517 1.914-1.517s1.913.68 1.913 1.518c0 .84-.857 1.52-1.914 1.52z" />
+                </svg>
+                <span id="theme-label">Dark</span>
+            </div>
+        </div>
+
+        <div id="container" class="content-container">
+            <div class="prompt-submissions">
+                <section class="pc-header">
+                    <h1>Prompt Submissions</h1>
+                    <p>This is where you can submit new writing prompts or contribute building blocks for the prompt generator. Simple Prompts are quick ideas anyone can use right away, while Generator Contributions expand the variety, tone, and structure of the prompt generator itself.</p>
+                </section>
+
+                <div id="simple-prompt" class="pc-card">
+                    <h2>Simple Prompt</h2>
+                    <p>Submit standalone prompts, challenge ideas, or short scenarios.</p>
+
+                    <div id="simple-prompt-form" hidden>
+                        <label>Submission</label>
+                        <textarea id="simple-prompt-submission" maxlength="500" placeholder="Write a prompt, challenge idea, or scenario..."></textarea>
+
+                        <div class="actions">
+                            <button id="simple-prompt-cancel">Cancel</button>
+                            <button id="simple-prompt-submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="generator-contribution" class="pc-card">
+                    <h2>Generator Contribution</h2>
+                    <p>Contribute templates, word banks, genre additions, or challenge rules.</p>
+
+                    <div id="generator-contribution-form" hidden>
+                        <label>Contribution Type</label>
+                        <select id="contribution-type">
+                            <option value="template">Template</option>
+                            <option value="word-bank">Word Bank</option>
+                            <option value="genre-addition">Genre Addition</option>
+                            <option value="challenge-rule">Challenge Rule</option>
+                        </select>
+
+                        <div class="contribution-info">
+                            <label id="contribution-guidelines-toggle" class="contribution-info-toggle">Guidelines ▸</label>
+                            <p id="contribution-guidelines" class="contribuion-info" hidden></p>
+
+                            <label id="contribution-example-toggle" class="contribution-info-toggle">Example ▸</label>
+                            <p id="contribution-example" class="contribuion-info" hidden></p>
+                        </div>
+
+                        <label>Submission</label>
+                        <textarea id="generator-contribution-submission" maxlength="1000" placeholder="Describe your contribution..."></textarea>
+
+                        <label>Additional Notes</label>
+                        <textarea id="contribution-notes" placeholder="Optional notes or explanation..."></textarea>
+
+                        <div class="actions">
+                            <button id="generator-contribution-cancel">Cancel</button>
+                            <button id="generator-contribution-submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/utils/ui.js"></script>
+    <script src="scripts/community/prompt_submissions.js"></script>
+</body>
+</html>

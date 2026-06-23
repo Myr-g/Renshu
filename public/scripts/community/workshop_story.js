@@ -1,17 +1,17 @@
 /*----DOM Elements ----*/
 const title = document.getElementById("title");
-const back_button = document.getElementById("back_button");
+const back_button = document.getElementById("back-button");
 
-const story_title = document.getElementById("story_title");
-const story_tags = document.getElementById("story_tags");
-const authors_note = document.getElementById("authors_note");
-const story_content = document.getElementById("story_content");
+const story_title = document.getElementById("story-title");
+const story_tags = document.getElementById("story-tags");
+const authors_note = document.getElementById("authors-note");
+const story_content = document.getElementById("story-content");
 
-const download_feedback = document.getElementById("download_feedback");
-const review_comments = document.getElementById("review_comments");
-const review_form = document.getElementById("review_form");
-const review_input = document.getElementById("review_input");
-const review_submit = document.getElementById("review_submit");
+const download_feedback = document.getElementById("download-feedback");
+const review_comments = document.getElementById("review-comments");
+const review_form = document.getElementById("review-form");
+const review_input = document.getElementById("review-input");
+const review_submit = document.getElementById("review-submit");
 
 const blocked_reviewers = JSON.parse(localStorage.getItem("blockedReviewers")) || [];
 
@@ -45,7 +45,7 @@ function anonymizeReviewer(reviewerId)
 
 function removeContextMenu()
 {
-    const existing = document.querySelector(".review_context_menu");
+    const existing = document.querySelector(".review-context-menu");
 
     if(existing)
     {
@@ -74,17 +74,17 @@ async function loadReviewComments(data)
         }
 
         const review = document.createElement("div");
-        review.classList.add("review_comment");
+        review.classList.add("review-comment");
 
         const reviewer = document.createElement("p");
-        reviewer.classList.add("review_name")
+        reviewer.classList.add("review-name")
         reviewer.textContent = anonymizeReviewer(item.reviewerId);
 
         reviewer.addEventListener("click", (event) => {
             removeContextMenu();
 
             const review_context_menu = document.createElement("div");
-            review_context_menu.classList.add("review_context_menu");
+            review_context_menu.classList.add("review-context-menu");
 
             const reviewer_label = document.createElement("p");
             reviewer_label.textContent = anonymizeReviewer(item.reviewerId);
@@ -108,11 +108,11 @@ async function loadReviewComments(data)
         });
 
         const review_text = document.createElement("p");
-        review_text.classList.add("review_text");
+        review_text.classList.add("review-text");
         review_text.textContent = item.text;
 
         const review_date = document.createElement("p");
-        review_date.classList.add("review_date");
+        review_date.classList.add("review-date");
         review_date.textContent = new Date(item.createdAt).toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "numeric", minute: "2-digit", hour12: true }).replace(",", " ·");
 
         review.appendChild(reviewer);
@@ -172,7 +172,7 @@ function downloadAllFeedback(data)
 }
 
 document.addEventListener("click", (event) => {
-    if(!event.target.closest(".review_context_menu") && !event.target.classList.contains("review_name"))
+    if(!event.target.closest(".review-context-menu") && !event.target.classList.contains("review-name"))
     {
         removeContextMenu();
     }
@@ -223,7 +223,7 @@ window.addEventListener("DOMContentLoaded", async() => {
             }
 
             const story_tag = document.createElement("span");
-            story_tag.classList.add("story_tag");
+            story_tag.classList.add("story-tag");
             story_tag.textContent = tag;
             story_tags.appendChild(story_tag);
         });

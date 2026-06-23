@@ -1,18 +1,18 @@
 import { loadFilters } from "./filters/filter_tags.js";
 
 /*---- DOM Elements ----*/
-const post_story = document.getElementById("post_story_card");
-const post_story_form = document.getElementById("post_story_form");
-const post_story_title = document.getElementById("post_story_title");
-const post_story_content = document.getElementById("post_story_content");
-const post_story_tags = document.getElementById("post_story_tags");
-const post_story_authors_note = document.getElementById("post_story_authors_note");
-const post_story_cancel = document.getElementById("post_story_cancel");
-const post_story_submit = document.getElementById("post_story_submit");
+const post_story = document.getElementById("post-story-card");
+const post_story_form = document.getElementById("post-story-form");
+const post_story_title = document.getElementById("post-story-title");
+const post_story_content = document.getElementById("post-story-content");
+const post_story_tags = document.getElementById("post-story-tags");
+const post_story_authors_note = document.getElementById("post-story-authors-note");
+const post_story_cancel = document.getElementById("post-story-cancel");
+const post_story_submit = document.getElementById("post-story-submit");
 
-const filter_toggle = document.getElementById('filter_toggle');
-const filter_panel = document.getElementById('filter_panel');
-const filter_tag = document.getElementById("filter_tag");
+const filter_toggle = document.getElementById('filter-toggle');
+const filter_panel = document.getElementById('filter-panel');
+const filter_tag = document.getElementById("filter-tag");
 
 /*---- Variables ----*/
 let active_filters = [];
@@ -34,14 +34,14 @@ function generateReviewerId()
 function createTagRow(category, tags, buttonClass) 
 {
     const row = document.createElement("div");
-    row.classList.add("filter_row");
+    row.classList.add("filter-row");
 
     const label = document.createElement("label");
-    label.classList.add("filter_label");
+    label.classList.add("filter-label");
     label.textContent = category;
 
     const tagContainer = document.createElement("div");
-    tagContainer.classList.add("filter_tags");
+    tagContainer.classList.add("filter-tags");
 
     for(const tag of tags) 
     {
@@ -68,7 +68,7 @@ async function loadPostStoryTags()
 
     for(const [category, tags] of Object.entries(filters)) 
     {
-        const row = createTagRow(category, tags, "post_story_tag");
+        const row = createTagRow(category, tags, "post-story-tag");
         post_story_tags.appendChild(row);
     }
 }
@@ -89,7 +89,7 @@ function getSelectedPostTags() {
         "Story Type": "storyType"
     };
 
-    const rows = document.querySelectorAll(".post_story_tags .filter_row");
+    const rows = document.querySelectorAll(".post-story-tags .filter-row");
     const result = {
         genre: [],
         contentWarning: [],
@@ -100,7 +100,7 @@ function getSelectedPostTags() {
         const label = row.querySelector("label").textContent.trim();
         const key = TAG_CATEGORY_MAP[label];
 
-        const selected = row.querySelectorAll(".post_story_tag.selected");
+        const selected = row.querySelectorAll(".post-story-tag.selected");
         result[key] = Array.from(selected).map(btn => btn.textContent);
     });
 
@@ -129,8 +129,8 @@ post_story_submit.addEventListener("click", async() => {
     post_story_title.value = "";
     post_story_content.value = "";
     post_story_authors_note.value = "";
-    document.querySelectorAll(".post_story_tags .filter_row").forEach(row => {
-        row.querySelectorAll(".post_story_tag.selected").forEach(btn => btn.classList.remove("selected"));
+    document.querySelectorAll(".post-story-tags .filter-row").forEach(row => {
+        row.querySelectorAll(".post-story-tag.selected").forEach(btn => btn.classList.remove("selected"));
     });
 
     post_story_form.classList.remove("expanded");
@@ -151,7 +151,7 @@ async function loadFilterPanel()
 
     for(const [category, tags] of Object.entries(filters)) 
     {
-        const row = createTagRow(category, tags, "filter_tag");
+        const row = createTagRow(category, tags, "filter-tag");
         filter_panel.appendChild(row);
     }
 }
@@ -162,22 +162,22 @@ filter_toggle.addEventListener('click', () => {
 });
 
 document.addEventListener("click", async(event) => {
-    if(event.target.classList.contains("post_story_tag"))
+    if(event.target.classList.contains("post-story-tag"))
     {
-        const row = event.target.closest(".filter_row");
+        const row = event.target.closest(".filter-row");
 
         if(row.querySelector("label").textContent.trim() === "Story Type") 
         {
-            row.querySelectorAll(".post_story_tag.selected").forEach(btn => btn.classList.remove("selected"));
+            row.querySelectorAll(".post-story-tag.selected").forEach(btn => btn.classList.remove("selected"));
         }
 
         event.target.classList.toggle("selected");
     }
 
-    else if(event.target.classList.contains("filter_tag"))
+    else if(event.target.classList.contains("filter-tag"))
     {
         event.target.classList.toggle("active");
-        active_filters = [...document.querySelectorAll(".filter_tag.active")].map(tag => tag.textContent);
+        active_filters = [...document.querySelectorAll(".filter-tag.active")].map(tag => tag.textContent);
         await loadStories();
     }
 });
@@ -220,7 +220,7 @@ async function loadStories()
         if(matches)
         {
             const story_card = document.createElement("div");
-            story_card.classList.add("story_card");
+            story_card.classList.add("story-card");
             story_card.dataset.id = story.id;
 
             const h2 = document.createElement("h2");
@@ -231,21 +231,21 @@ async function loadStories()
             for(const tag of story_tag_list)
             {
                 const story_tag = document.createElement("span");
-                story_tag.classList.add("story_tag");
+                story_tag.classList.add("story-tag");
                 story_tag.textContent = tag;
                 story_tags.appendChild(story_tag);
             }
 
             const story_excerpt = document.createElement("p");
-            story_excerpt.classList.add("story_excerpt");
+            story_excerpt.classList.add("story-excerpt");
             story_excerpt.textContent = story.content;
 
             const authors_note = document.createElement("p");
-            authors_note.classList.add("authors_note");
+            authors_note.classList.add("authors-note");
             authors_note.textContent = story.authorsNote;
 
             const expiresAt = document.createElement("p");
-            expiresAt.classList.add("story_expiration");
+            expiresAt.classList.add("story-expiration");
             expiresAt.textContent = getExpiryText(story.expiresAt);
 
             story_card.appendChild(h2);
