@@ -100,7 +100,6 @@ Personalizing the writing environment to better match each writer's preferences
 
 ## Run Locally
 ```
-cd web-app
 npm install
 npm start
 ```
