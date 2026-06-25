@@ -42,6 +42,8 @@ community_toggle.addEventListener("click", () => {
   window.location.href = "/community.html";
 });
 
+document.documentElement.getAttribute("data-theme") === "light" ? theme_label.textContent = "Light" : "Dark";
+
 function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
   localStorage.setItem("theme", theme);

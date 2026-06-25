@@ -12,11 +12,6 @@ function generateUserId()
     return "usr_" + generateId();
 }
 
-function generateSessionId()
-{
-    return "sess_" + generateId();
-}
-
 function generateWorkshopId()
 {
     return "workshop_" + generateId();
@@ -35,4 +30,4 @@ function generatePromptSubmissionId(type)
     }
 }
 
-module.exports = {generateUserId, generateSessionId, generateWorkshopId, generatePromptSubmissionId};
+module.exports = {generateUserId, generateWorkshopId, generatePromptSubmissionId};

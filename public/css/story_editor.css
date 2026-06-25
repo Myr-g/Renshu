@@ -60,6 +60,17 @@
   letter-spacing: -0.01em;
 }
 
+.story-title-input {
+  background: transparent;
+  border-radius: 12px;
+  color: var(--text-main);
+
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
 /* Prompt */
 .workspace-prompt {
   display: flex;

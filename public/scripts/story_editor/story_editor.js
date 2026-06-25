@@ -106,19 +106,33 @@ back_button.addEventListener("click", async () => {
 });
 
 /* Updating Story Title */
-story_title.addEventListener("blur", updateTitle);
+story_title.addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = story_title.textContent;
+    input.className = "story-title-input";
 
-story_title.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    story_title.blur();
-    updateTitle();
-  }
-});
+    story_title.replaceWith(input);
+    input.focus();
+    input.select();
 
-function updateTitle()
+    input.addEventListener("blur", () => {
+      updateTitle(input.value);
+      input.replaceWith(story_title);
+    });
+
+    input.addEventListener("keydown", (e) => {
+      if(e.key === "Enter")
+      {
+        e.preventDefault();
+        input.blur();
+      }
+    })
+  });
+
+function updateTitle(title)
 {   
-  let updatedTitle = story_title.textContent.trim();
+  let updatedTitle = title.trim();
     
   if(updatedTitle.length === 0) 
   {
@@ -215,7 +229,7 @@ story_type_toggle.addEventListener("click", async() => {
 });
 
 /* Prompt Type */
-const prompt_type_toggles = document.querySelectorAll(".prompt_type");
+const prompt_type_toggles = document.querySelectorAll(".prompt-type");
 
 prompt_type_toggles.forEach(toggle => {
   toggle.addEventListener("click", () => {
@@ -389,7 +403,7 @@ async function saveStory()
   {
     regenerationDisabled = true;
     regen_button.disabled = true;
-    document.querySelectorAll(".prompt_type").forEach(toggle => {
+    document.querySelectorAll(".prompt-type").forEach(toggle => {
       toggle.disabled = true;
       toggle.classList.add("locked");
     });
@@ -651,7 +665,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   if(regenerationDisabled && regen_button)
   {
     regen_button.disabled = true;
-    document.querySelectorAll(".prompt_type").forEach(toggle => {
+    document.querySelectorAll(".prompt-type").forEach(toggle => {
         toggle.disabled = true;
         toggle.classList.add("locked");
     });
